@@ -10,7 +10,7 @@ public class Formacion {
         this.estudios = estudios;
         this.centro = centro;
         this.anioI = anioI;
-        this.anioF = anioI;
+        this.anioF = anioF;
     }
 
     public String getEstudios() { return estudios; }

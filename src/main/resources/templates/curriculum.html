@@ -1,10 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="#{cv.titulo}">Curriculum</title>
 </head>
 <body>
+    <header>
+        <h1 th:text="${nombre}">Nombre</h1>
+        <h2 th:text="#{cv.profesion}">Titular profesional</h2>
+        <p th:text="#{cv.presentacion}">Presentación de 2 a 4 frases.</p>
+    </header>
 
+    <section>
+        <h3 th:text="#{cv.contacto.titulo}">Contacto</h3>
+        <p th:text="#{cv.contacto.correo}">correo@ejemplo.com</p>
+    </section>
+
+    <section>
+        <h3 th:text="#{cv.formacion.titulo}">Formación</h3>
+        <ul>
+            <li th:each="f : ${formacion}">
+                <strong th:text="${f.estudios}">Estudios</strong> —
+                <span th:text="${f.centro}">Centro</span>
+                <span th:if="${f.anioF != null}"
+                      th:text="' (' + ${f.anioI} + ' - ' + ${f.anioF} + ')'">2025 - 2027</span>
+                <span th:if="${f.anioF == null}"
+                      th:text="#{cv.formacion.enCurso}">En curso</span>
+            </li>
+        </ul>
+    </section>
+
+    <section>
+        <h3 th:text="#{cv.experiencia.titulo}">Experiencia</h3>
+        <ul>
+            <li th:each="f: ${experiencia}">
+                <strong th:text="${f.puesto}">Puesto</strong> — <span th:text="${f.empresa}">Empresa</span>
+                <span th:if="${f.anioF != null}"
+                      th:text="' (' + ${f.anioI} + ' - ' + ${f.anioF} + ')'">2025 - 2027</span>
+                <span th:if="${f.anioF == null}"
+                      th:text="#{cv.experiencia.contratado}">Sigue en la empresa</span>
+                <p th:if="${experiencia.length == 0}">En busca de mi primera experiencia</p>
+            </li>
+        </ul>
+
+    </section>
 </body>
 </html>

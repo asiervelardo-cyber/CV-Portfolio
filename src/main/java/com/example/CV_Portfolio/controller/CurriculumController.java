@@ -4,6 +4,7 @@ import com.example.CV_Portfolio.model.Experiencia;
 import com.example.CV_Portfolio.model.Formacion;
 import com.example.CV_Portfolio.model.Habilidad;
 import com.example.CV_Portfolio.model.Idioma;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,12 +19,12 @@ public class CurriculumController {
     private static final List<Idioma> IDIOMA = List.of(new Idioma("Español", 19, "Nativo"), new Idioma("Ingles", 10, "C1"));
 
     @GetMapping("/curriculum")
-    public String curriculum(Model model){
+    public String curriculum(Model model, @Value("${cv.nombre}") String nombre){
         model.addAttribute("experiencia", EXPERIENCIA);
         model.addAttribute("formacion", FORMACION);
         model.addAttribute("habilidad", HABILIDAD);
         model.addAttribute("idioma", IDIOMA);
-
+        model.addAttribute("nombre", nombre);
         return "curriculum";
     }
 }
