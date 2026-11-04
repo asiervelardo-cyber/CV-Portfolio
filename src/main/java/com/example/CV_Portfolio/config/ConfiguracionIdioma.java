@@ -1,4 +1,4 @@
-package com.example.demo.config;
+package com.example.CV_Portfolio.config;
 
 import java.util.Locale;
 
