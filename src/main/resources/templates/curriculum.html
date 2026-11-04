@@ -40,7 +40,7 @@
                       th:text="' (' + ${f.anioI} + ' - ' + ${f.anioF} + ')'">2025 - 2027</span>
                 <span th:if="${f.anioF == null}"
                       th:text="#{cv.experiencia.contratado}">Sigue en la empresa</span>
-                <p th:if="${experiencia.length == 0}">En busca de mi primera experiencia</p>
+                <p th:if="${experiencia.size() == 0}">En busca de mi primera experiencia</p>
             </li>
         </ul>
 
