@@ -145,6 +145,14 @@ body > a::before {
     content: "← ";
 }
 
+/* Párrafos sueltos, como el enlace de imprimir y su aviso. */
+body > p,
+body > p.aviso {
+    width: min(var(--ancho), calc(100% - 32px));
+    margin-left: auto;
+    margin-right: auto;
+}
+
 /* --------------------------------------------------------------------------
    Cabecera del currículum
    -------------------------------------------------------------------------- */

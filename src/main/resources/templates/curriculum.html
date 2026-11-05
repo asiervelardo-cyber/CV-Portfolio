@@ -8,11 +8,21 @@
 </head>
 <body>
     <a th:href="@{/}">Volver</a>
+
     <header>
         <h1 th:text="${nombre}">Nombre</h1>
         <h2 th:text="#{cv.profesion}">Titular profesional</h2>
         <p th:text="#{cv.presentacion}">Presentación de 2 a 4 frases.</p>
     </header>
+
+    <p class="no-imprimir">
+        <a th:href="@{/curriculum(imprimir=true)}" class="boton"
+           th:text="#{cv.imprimir}">Imprimir o guardar como PDF</a>
+    </p>
+    <p class="aviso no-imprimir" th:if="${imprimir}">
+        <span th:text="#{cv.imprimir.aviso}">Pulsa Ctrl+P y elige Guardar como PDF.</span>
+        <a th:href="@{/curriculum}" th:text="#{cv.imprimir.cerrar}">Cerrar</a>
+    </p>
 
     <section>
         <h3 th:text="#{cv.contacto.titulo}">Contacto</h3>
