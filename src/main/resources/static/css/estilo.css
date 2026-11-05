@@ -1,0 +1,521 @@
+/* ==========================================================================
+   Estilos del currículum y portfolio.
+   Colócalo en: src/main/resources/static/css/estilo.css
+   ========================================================================== */
+
+:root {
+    --fondo: #1e2623;
+    --superficie: #2a3430;
+    --texto: #e6ece8;
+    --texto-suave: #a9b7af;
+    --borde: #3d4a44;
+    --acento: #5ccb91;
+    --acento-oscuro: #8fd9b1;
+    --acento-claro: #27463a;
+    --error: #f1aeb5;
+    --error-fondo: #4a1f25;
+    --error-texto: #f8d7da;
+    --gris: #5c636a;
+    --ancho: 860px;
+    --sombra: 0 2px 6px rgb(0 0 0 / 30%);
+}
+
+/* --------------------------------------------------------------------------
+   Base
+   -------------------------------------------------------------------------- */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding-bottom: 48px;
+    background: var(--fondo);
+    color: var(--texto);
+    font: 16px/1.6 "Segoe UI", system-ui, Arial, sans-serif;
+}
+
+/* Todo el contenido comparte el mismo ancho y queda centrado. */
+body > header,
+body > section,
+body > form,
+main {
+    width: min(var(--ancho), calc(100% - 32px));
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h1 {
+    margin: 0;
+    font-size: clamp(2rem, 6vw, 2.8rem);
+    line-height: 1.1;
+    letter-spacing: -.01em;
+}
+
+h2 {
+    margin: 4px 0 14px;
+    color: var(--acento);
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+h3 {
+    margin: 0 0 14px;
+    color: var(--acento-oscuro);
+    font-size: .85rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+p {
+    margin: 0 0 10px;
+}
+
+p:last-child {
+    margin-bottom: 0;
+}
+
+a {
+    color: var(--acento);
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 2px solid var(--acento);
+    outline-offset: 2px;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+}
+
+/* --------------------------------------------------------------------------
+   Menú y selector de idioma
+   -------------------------------------------------------------------------- */
+
+nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 6px 16px;
+    padding: 10px 16px;
+    background: var(--superficie);
+    border-bottom: 1px solid var(--borde);
+    font-size: .92rem;
+}
+
+nav span {
+    color: var(--texto-suave);
+}
+
+nav a {
+    font-weight: 600;
+    text-decoration: none;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+/* Enlace de vuelta al inicio, alineado con el contenido. */
+body > a {
+    display: block;
+    width: min(var(--ancho), calc(100% - 32px));
+    margin: 20px auto 0;
+    color: var(--acento);
+    font-size: .92rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+body > a:hover {
+    text-decoration: underline;
+}
+
+body > a::before {
+    content: "← ";
+}
+
+/* --------------------------------------------------------------------------
+   Cabecera del currículum
+   -------------------------------------------------------------------------- */
+
+body > header {
+    margin-top: 32px;
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 3px solid var(--acento);
+}
+
+body > header p {
+    max-width: 68ch;
+    color: var(--texto-suave);
+    font-size: 1.05rem;
+}
+
+/* --------------------------------------------------------------------------
+   Apartados
+   -------------------------------------------------------------------------- */
+
+body > section,
+main > section {
+    margin-top: 16px;
+    padding: 20px 24px;
+    background: var(--superficie);
+    border: 1px solid var(--borde);
+    border-radius: 8px;
+    box-shadow: var(--sombra);
+}
+
+section ul,
+main > ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* Formación, experiencia y otras listas: una fila por elemento. */
+section li,
+main > ul > li {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--borde);
+}
+
+section li:first-child,
+main > ul > li:first-child {
+    padding-top: 0;
+}
+
+section li:last-child,
+main > ul > li:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+}
+
+section li p {
+    margin: 4px 0 0;
+}
+
+/* Página de inicio. */
+main {
+    margin-top: 32px;
+}
+
+main > h1 {
+    margin-bottom: 20px;
+}
+
+main > ul {
+    padding: 20px 24px;
+    background: var(--superficie);
+    border: 1px solid var(--borde);
+    border-radius: 8px;
+    box-shadow: var(--sombra);
+}
+
+main > ul a {
+    font-weight: 600;
+    text-decoration: none;
+}
+
+main > ul a:hover {
+    text-decoration: underline;
+}
+
+/* --------------------------------------------------------------------------
+   Niveles de habilidades e idiomas (colores exigidos por el enunciado)
+   -------------------------------------------------------------------------- */
+
+.nivel-alto,
+.nivel-medio,
+.nivel-bajo {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 6px;
+    line-height: 1.4;
+}
+
+.nivel-alto {
+    background-color: #198754;
+    color: #ffffff;
+}
+
+.nivel-medio {
+    background-color: #8fd19e;
+    color: #14231b;
+}
+
+.nivel-bajo {
+    background-color: #d1e7dd;
+    color: #14231b;
+}
+
+/* La fila de un nivel no lleva línea: el color ya separa los elementos. */
+li:has(> .nivel-alto),
+li:has(> .nivel-medio),
+li:has(> .nivel-bajo) {
+    padding: 4px 0;
+    border-bottom: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Botones y enlaces con aspecto de botón
+   -------------------------------------------------------------------------- */
+
+button,
+.boton {
+    display: inline-block;
+    padding: 8px 16px;
+    border: 1px solid var(--acento);
+    border-radius: 6px;
+    background: var(--acento);
+    color: #14231b;
+    font: inherit;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+button:hover,
+.boton:hover {
+    border-color: var(--acento-oscuro);
+    background: var(--acento-oscuro);
+}
+
+.boton-secundario {
+    background: var(--superficie);
+    color: var(--acento);
+}
+
+.boton-secundario:hover {
+    background: var(--acento-claro);
+    color: var(--acento-oscuro);
+}
+
+/* --------------------------------------------------------------------------
+   Hito 2: filtro y tarjetas del portfolio
+   -------------------------------------------------------------------------- */
+
+.filtro {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 12px;
+    margin-top: 16px;
+    padding: 16px 20px;
+    background: var(--superficie);
+    border: 1px solid var(--borde);
+    border-radius: 8px;
+    box-shadow: var(--sombra);
+}
+
+.filtro input,
+.filtro select {
+    width: auto;
+    min-width: 140px;
+}
+
+.tarjetas {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.tarjeta {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 18px;
+    background: var(--superficie);
+    border: 1px solid var(--borde);
+    border-radius: 8px;
+    box-shadow: var(--sombra);
+}
+
+.tarjeta h2,
+.tarjeta h3 {
+    margin: 0;
+    color: var(--texto);
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+.etiqueta {
+    display: inline-block;
+    margin: 0 4px 4px 0;
+    padding: 2px 10px;
+    border-radius: 999px;
+    background: var(--acento-claro);
+    color: var(--acento-oscuro);
+    font-size: .85rem;
+    font-weight: 600;
+}
+
+/* Estado de los proyectos: verde «En curso», gris «Terminado». */
+.etiqueta-curso {
+    background: #198754;
+    color: #ffffff;
+}
+
+.etiqueta-terminado {
+    background: var(--gris);
+    color: #ffffff;
+}
+
+/* --------------------------------------------------------------------------
+   Hito 3: formulario de edición
+   -------------------------------------------------------------------------- */
+
+form label {
+    display: block;
+    margin-bottom: 4px;
+    font-size: .92rem;
+    font-weight: 600;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #55645c;
+    border-radius: 6px;
+    background: #1e2623;
+    color: var(--texto);
+    font: inherit;
+}
+
+textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
+.campo {
+    margin-bottom: 14px;
+}
+
+.fila-proyecto {
+    margin-bottom: 16px;
+    padding: 18px;
+    background: var(--fondo);
+    border: 1px solid var(--borde);
+    border-radius: 8px;
+}
+
+.botones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.error {
+    display: block;
+    margin-top: 4px;
+    color: var(--error);
+    font-size: .9rem;
+    font-weight: 600;
+}
+
+.aviso {
+    margin: 16px 0;
+    padding: 10px 14px;
+    border-radius: 6px;
+    background: var(--error-fondo);
+    color: var(--error-texto);
+    font-weight: 600;
+}
+
+.ayuda {
+    color: var(--texto-suave);
+    font-size: .9rem;
+}
+
+/* --------------------------------------------------------------------------
+   Móvil
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 600px) {
+    body > section,
+    main > section,
+    main > ul {
+        padding: 16px;
+    }
+
+    nav {
+        justify-content: flex-start;
+    }
+
+    .filtro input,
+    .filtro select {
+        width: 100%;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Impresión o guardar como PDF
+   -------------------------------------------------------------------------- */
+
+@media print {
+    /* Al imprimir se usa fondo blanco y texto oscuro. */
+    :root {
+        --fondo: #ffffff;
+        --superficie: #ffffff;
+        --texto: #1c2b24;
+        --texto-suave: #55645c;
+        --borde: #d9e3dd;
+        --acento: #146c43;
+        --acento-oscuro: #0f5132;
+        --acento-claro: #e6f2ec;
+    }
+
+    body {
+        padding: 0;
+        background: #ffffff;
+    }
+
+    nav,
+    body > a,
+    .no-imprimir {
+        display: none;
+    }
+
+    body > header,
+    body > section,
+    main {
+        width: 100%;
+    }
+
+    body > header {
+        margin-top: 0;
+    }
+
+    body > section,
+    main > section {
+        padding: 8px 0;
+        border: 0;
+        box-shadow: none;
+        break-inside: avoid;
+    }
+
+    /* Sin esto, el navegador puede quitar los colores de fondo al imprimir. */
+    .nivel-alto,
+    .nivel-medio,
+    .nivel-bajo,
+    .etiqueta {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}

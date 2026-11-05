@@ -16,7 +16,7 @@ public class CurriculumController {
     private static final List<Experiencia> EXPERIENCIA = List.of(new Experiencia("Técnico","Netflix", 2022,2023), new Experiencia("Programador", "Microsoft", 2023, 2025));
     private static final List<Formacion> FORMACION = List.of(new Formacion("DAW", "IES Velázquez", 2025, 2027));
     private static final List<Habilidad> HABILIDAD = List.of(new Habilidad("HTML", 2, "Alto"), new Habilidad("Java", 2, "Alto"));
-    private static final List<Idioma> IDIOMA = List.of(new Idioma("Español", 19, "Nativo"), new Idioma("Ingles", 10, "C1"));
+    private static final List<Idioma> IDIOMA = List.of(new Idioma("Inglés", 10, "Alto", "C1"));
 
     @GetMapping("/curriculum")
     public String curriculum(Model model, @Value("${cv.nombre}") String nombre){
