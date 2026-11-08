@@ -10,21 +10,22 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
-
 @Controller
 public class CurriculumController {
-    private static final List<Experiencia> EXPERIENCIA = List.of(new Experiencia("Técnico","Netflix", 2022,2023), new Experiencia("Programador", "Microsoft", 2023, 2025));
-    private static final List<Formacion> FORMACION = List.of(new Formacion("DAW", "IES Velázquez", 2025, 2027));
-    private static final List<Habilidad> HABILIDAD = List.of(new Habilidad("HTML", 2, "Alto"), new Habilidad("Java", 2, "Alto"));
-    private static final List<Idioma> IDIOMA = List.of(new Idioma("Inglés", 10, "Alto", "C1"));
+
+    private static final Experiencia[] EXPERIENCIA = {new Experiencia("Técnico", "Netflix", 2022, 2023), new Experiencia("Programador", "Microsoft", 2023, 2025)};
+    private static final Formacion[] FORMACION = {new Formacion("DAW", "IES Velázquez", 2025, null)};
+    private static final Habilidad[] HABILIDAD = {new Habilidad("HTML", 2, "alto"), new Habilidad("Java", 2, "alto"), new Habilidad("CSS", 2, "medio"), new Habilidad("Spring Boot", 1, "bajo")};
+    private static final Idioma[] IDIOMA = {new Idioma("Español", 19, "alto", "Nativo"), new Idioma("Inglés", 10, "alto", "C1")};
+    private static final String CONTACTO = "avelnor1711@g.educaand.es";
 
     @GetMapping("/curriculum")
-    public String curriculum(@RequestParam(name = "imprimir", defaultValue = "false") boolean imprimir, Model model, @Value("${cv.nombre}") String nombre){
+    public String curriculum(@RequestParam(name = "imprimir", defaultValue = "false") boolean imprimir, Model model,@Value("${cv.nombre}") String nombre) {
         model.addAttribute("experiencia", EXPERIENCIA);
         model.addAttribute("formacion", FORMACION);
         model.addAttribute("habilidad", HABILIDAD);
         model.addAttribute("idioma", IDIOMA);
+        model.addAttribute("contacto", CONTACTO);
         model.addAttribute("nombre", nombre);
         model.addAttribute("imprimir", imprimir);
         return "curriculum";

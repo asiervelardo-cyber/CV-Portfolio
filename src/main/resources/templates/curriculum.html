@@ -7,94 +7,106 @@
     <link rel="stylesheet" th:href="@{/css/estilo.css}">
 </head>
 <body>
-    <a th:href="@{/}">Volver</a>
+<nav th:attr="aria-label=#{language.label}">
+    <span th:text="#{language.label}">Idioma</span>
+    <a th:href="@{/curriculum(lang='es')}" lang="es">Español</a>
+    <a th:href="@{/curriculum(lang='en')}" lang="en">English</a>
+</nav>
 
-    <header>
-        <h1 th:text="${nombre}">Nombre</h1>
-        <h2 th:text="#{cv.profesion}">Titular profesional</h2>
-        <p th:text="#{cv.presentacion}">Presentación de 2 a 4 frases.</p>
-    </header>
+<a th:href="@{/}" th:text="#{inicio.nombre}">Inicio</a>
 
-    <p class="no-imprimir">
-        <a th:href="@{/curriculum(imprimir=true)}" class="boton"
-           th:text="#{cv.imprimir}">Imprimir o guardar como PDF</a>
-    </p>
-    <p class="aviso no-imprimir" th:if="${imprimir}">
-        <span th:text="#{cv.imprimir.aviso}">Pulsa Ctrl+P y elige Guardar como PDF.</span>
-        <a th:href="@{/curriculum}" th:text="#{cv.imprimir.cerrar}">Cerrar</a>
-    </p>
+<header>
+    <h1 th:text="${nombre}">Nombre</h1>
+    <h2 th:text="#{cv.profesion}">Titular profesional</h2>
+    <p th:text="#{cv.presentacion}">Presentación de 2 a 4 frases.</p>
+</header>
 
-    <section>
-        <h3 th:text="#{cv.contacto.titulo}">Contacto</h3>
-        <p th:text="#{cv.contacto.correo}">correo@ejemplo.com</p>
-    </section>
+<p class="no-imprimir">
+    <a th:href="@{/curriculum(imprimir=true)}" class="boton"
+       th:text="#{cv.imprimir}">Imprimir o guardar como PDF</a>
+</p>
+<p class="aviso no-imprimir" th:if="${imprimir}">
+    <span th:text="#{cv.imprimir.aviso}">Pulsa Ctrl+P y elige Guardar como PDF.</span>
+    <a th:href="@{/curriculum}" th:text="#{cv.imprimir.cerrar}">Cerrar</a>
+</p>
 
-    <section>
-        <h3 th:text="#{cv.formacion.titulo}">Formación</h3>
-        <ul>
-            <li th:each="f : ${formacion}">
-                <strong th:text="${f.estudios}">Estudios</strong> —
-                <span th:text="${f.centro}">Centro</span>
-                <span th:if="${f.anioF != null}"
-                      th:text="' (' + ${f.anioI} + ' - ' + ${f.anioF} + ')'">2025 - 2027</span>
-                <span th:if="${f.anioF == null}"
-                      th:text="#{cv.formacion.enCurso}">En curso</span>
-            </li>
-        </ul>
-    </section>
+<!-- Si no hay contacto, se oculta el apartado entero, título incluido. -->
+<section th:if="${contacto != ''}">
+    <h3 th:text="#{cv.contacto.titulo}">Contacto</h3>
+    <p th:text="${contacto}">correo@ejemplo.com</p>
+</section>
 
-    <section>
-        <h3 th:text="#{cv.experiencia.titulo}">Experiencia</h3>
-        <ul>
-            <li th:each="f: ${experiencia}">
-                <strong th:text="${f.puesto}">Puesto</strong> — <span th:text="${f.empresa}">Empresa</span>
-                <span th:if="${f.anioF != null}"
-                      th:text="' (' + ${f.anioI} + ' - ' + ${f.anioF} + ')'">2025 - 2027</span>
-                <span th:if="${f.anioF == null}"
-                      th:text="#{cv.experiencia.contratado}">Sigue en la empresa</span>
-                <p th:if="${experiencia.size() == 0}">En busca de mi primera experiencia</p>
-            </li>
-        </ul>
-    </section>
+<section>
+    <h3 th:text="#{cv.formacion.titulo}">Formación</h3>
+    <ul>
+        <li th:each="f : ${formacion}">
+            <strong th:text="${f.estudios}">Estudios</strong> —
+            <span th:text="${f.centro}">Centro</span>
+            <span th:if="${f.anioF != null}" th:text="'(' + ${f.anioF} + ')'">(2027)</span>
+            <span th:if="${f.anioF == null}" th:text="'(' + #{cv.formacion.enCurso} + ')'">(En curso)</span>
+        </li>
+    </ul>
+</section>
 
-    <section>
-        <h3 th:text="#{cv.habilidades.titulo}">Experiencia</h3>
-        <ul>
-            <li th:each="f: ${habilidad}" th:switch="${f.nivel}">
-                <span th:case="'Alto'" class = "nivel-alto" >
-                    <strong th:text="${f.habilidad}">Habilidad</strong>. Nivel: <span th:text="${f.nivel}">Nivel</span>
-                    <span th:text=" ' | Años de experiencia: ' + ${f.aniosExperiencia}">0</span>
+<section>
+    <h3 th:text="#{cv.experiencia.titulo}">Experiencia</h3>
+    <!-- Fuera del th:each: con el array vacío, el bucle no se ejecuta. -->
+    <p th:if="${experiencia.length == 0}" th:text="#{cv.experiencia.vacia}">En busca de mi primera experiencia</p>
+    <ul th:if="${experiencia.length > 0}">
+        <li th:each="f : ${experiencia}">
+            <strong th:text="${f.puesto}">Puesto</strong> — <span th:text="${f.empresa}">Empresa</span>
+            <span th:if="${f.anioF != null}"
+                  th:text="'(' + ${f.anioI} + ' - ' + ${f.anioF} + ')'">(2025 - 2027)</span>
+            <span th:if="${f.anioF == null}"
+                  th:text="#{cv.experiencia.contratado}">Sigue en la empresa</span>
+        </li>
+    </ul>
+</section>
+
+<section>
+    <h3 th:text="#{cv.habilidades.titulo}">Habilidades</h3>
+    <ul>
+        <li th:each="f : ${habilidad}" th:switch="${f.nivel}">
+                <span th:case="'alto'" class="nivel-alto">
+                    <strong th:text="${f.habilidad}">Habilidad</strong> —
+                    <span th:text="#{nivel.alto}">nivel alto</span>
+                    <span th:text="'| ' + #{cv.anios} + ': ' + ${f.aniosExperiencia}">| Años: 2</span>
                 </span>
-                <span th:case="'Medio'" class = "nivel-medio" >
-                    <strong th:text="${f.habilidad}">Habilidad</strong>. Nivel: <span th:text="${f.nivel}">Nivel</span>
-                    <span th:text=" ' | Años de experiencia: ' + ${f.aniosExperiencia}">0</span>
+            <span th:case="'medio'" class="nivel-medio">
+                    <strong th:text="${f.habilidad}">Habilidad</strong> —
+                    <span th:text="#{nivel.medio}">nivel medio</span>
+                    <span th:text="'| ' + #{cv.anios} + ': ' + ${f.aniosExperiencia}">| Años: 2</span>
                 </span>
-                <span th:case="'Bajo'" class = "nivel-bajo" >
-                    <strong th:text="${f.habilidad}">Habilidad</strong>. Nivel: <span th:text="${f.nivel}">Nivel</span>
-                    <span th:text=" ' | Años de experiencia: ' + ${f.aniosExperiencia}">0</span>
+            <span th:case="'bajo'" class="nivel-bajo">
+                    <strong th:text="${f.habilidad}">Habilidad</strong> —
+                    <span th:text="#{nivel.bajo}">nivel bajo</span>
+                    <span th:text="'| ' + #{cv.anios} + ': ' + ${f.aniosExperiencia}">| Años: 2</span>
                 </span>
-            </li>
-        </ul>
-    </section>
+        </li>
+    </ul>
+</section>
 
-    <section>
-        <h3 th:text="#{cv.idioma.titulo}">Idioma</h3>
-        <ul>
-            <li th:each="f: ${idioma}" th:switch="${f.nivel}">
-                <span th:case="'Alto'" class = "nivel-alto" >
-                    <strong th:text="${f.idioma}">Habilidad</strong>. Nivel: <span th:text="${f.nivel} + '(' + ${f.certificado} +')'">Nivel</span>
-                    <span th:text=" ' | Años de experiencia: ' + ${f.anio}">0</span>
+<section>
+    <h3 th:text="#{cv.idioma.titulo}">Idiomas</h3>
+    <ul>
+        <li th:each="f : ${idioma}" th:switch="${f.nivel}">
+                <span th:case="'alto'" class="nivel-alto">
+                    <strong th:text="${f.idioma}">Idioma</strong> —
+                    <span th:text="#{nivel.alto}">nivel alto</span>
+                    <span th:text="'(' + ${f.certificado} + ')'">(C1)</span>
                 </span>
-                <span th:case="'Medio'" class = "nivel-medio" >
-                    <strong th:text="${f.idioma}">Habilidad</strong>. Nivel: <span th:text="${f.nivel} + '(' + ${f.certificado} +')'">Nivel</span>
-                    <span th:text=" ' | Años de experiencia: ' + ${f.anio}">0</span>
+            <span th:case="'medio'" class="nivel-medio">
+                    <strong th:text="${f.idioma}">Idioma</strong> —
+                    <span th:text="#{nivel.medio}">nivel medio</span>
+                    <span th:text="'(' + ${f.certificado} + ')'">(B2)</span>
                 </span>
-                <span th:case="'Bajo'" class = "nivel-bajo" >
-                    <strong th:text="${f.idioma}">Habilidad</strong>. Nivel: <span th:text="${f.nivel} + '(' + ${f.certificado} +')'">Nivel</span>
-                    <span th:text=" ' | Años de experiencia: ' + ${f.anio}">0</span>
+            <span th:case="'bajo'" class="nivel-bajo">
+                    <strong th:text="${f.idioma}">Idioma</strong> —
+                    <span th:text="#{nivel.bajo}">nivel bajo</span>
+                    <span th:text="'(' + ${f.certificado} + ')'">(A2)</span>
                 </span>
-            </li>
-        </ul>
-    </section>
+        </li>
+    </ul>
+</section>
 </body>
 </html>

@@ -1,10 +1,71 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="#{portfolio.titulo}">Portfolio</title>
     <link rel="stylesheet" th:href="@{/css/estilo.css}">
 </head>
 <body>
+    <a th:href="@{/}">Volver</a>
+
+    <form class="filtro" method="get" th:action="@{/portfolio}">
+
+        <div>
+            <label for="categoria" th:text="#{filtro.categoria}">Categoría</label>
+            <select id="categoria" name="categoria">
+                <option value="todas" th:text="#{filtro.todas}">Todas</option>
+                <option value="aplicaciones" th:selected="${categoriaFiltro == 'aplicaciones'}"
+                        th:text="#{categoria.aplicaciones}">Aplicaciones</option>
+                <option value="sitios-web" th:selected="${categoriaFiltro == 'sitios-web'}"
+                        th:text="#{categoria.sitiosWeb}">Sitios web</option>
+                <option value="diseno" th:selected="${categoriaFiltro == 'diseno'}"
+                        th:text="#{categoria.diseno}">Diseño</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="anio" th:text="#{filtro.anio}">Año</label>
+            <input type="number" id="anio" name="anio" th:value="${anioFiltro}">
+        </div>
+
+        <button type="submit" th:text="#{filtro.filtrar}">Filtrar</button>
+        <a th:href="@{/portfolio}" class="boton boton-secundario"
+           th:text="#{filtro.todos}">Mostrar todos</a>
+    </form>
+
+    <p class="aviso" th:if="${errorAnio}" th:text="#{filtro.anioInvalido}">Introduce un año válido</p>
+
+    <p th:text="#{portfolio.resultados} + ': ' + ${totalResultados}">Resultados: 3</p>
+    <p th:if="${totalResultados == 0}" th:text="#{portfolio.vacio}">No se encontraron proyectos</p>
+
+    <div class="tarjetas">
+        <article class="tarjeta" th:each="p : ${filtrado}">
+            <h2 th:text="${p.nombre}">Título del proyecto</h2>
+            <p th:text="${p.anio} + ' · ' + #{'categoria.' + ${p.categoria}}">2024 · Aplicaciones</p>
+
+            <div th:switch="${p.estado}">
+            <span th:case="'en-curso'" class="etiqueta etiqueta-curso"
+                  th:text="#{estado.enCurso}">En curso</span>
+                <span th:case="'terminado'" class="etiqueta etiqueta-terminado"
+                      th:text="#{estado.terminado}">Terminado</span>
+            </div>
+
+            <p th:text="#{${p.descripcion}}">Descripción de dos o tres frases.</p>
+
+            <!-- Si no hay tecnologías, se oculta el apartado entero. -->
+            <div th:if="${p.tecnologias.size() > 0}">
+                <h3 th:text="#{portfolio.tecnologias}">Tecnologías</h3>
+                <ul>
+                    <li class="etiqueta" th:each="t : ${p.tecnologias}" th:text="${t}">Java</li>
+                </ul>
+            </div>
+
+            <a th:if="${p.enlace != null}" th:href="${p.enlace}"
+               th:text="#{portfolio.verProyecto}">Ver proyecto</a>
+            <img th:if="${p.img != null}" th:src="@{${p.img}}"
+                 th:alt="#{portfolio.imagen} + ' ' + ${p.nombre}" alt="Captura del proyecto">
+        </article>
+    </div>
 </body>
 </html>

@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.Integer.parseInt;
-
 @Controller
 public class PortfolioController {
 
@@ -43,7 +41,7 @@ public class PortfolioController {
                 "proyecto.gestor.descripcion", "terminado",
                 List.of("Java", "Spring Boot", "Thymeleaf"),
                 "https://github.com/asiervelardo-cyber/juego",
-                "/img/img_prueba.webp"));
+                "/img/gestor-de-tareas.webp"));
 
         // Sin enlace ni imagen.
         lista.add(new Proyecto("Web de una panadería", 2024, "sitios-web",
@@ -64,7 +62,7 @@ public class PortfolioController {
 
     private List<Proyecto> filtrarProyectos(List<Proyecto> proyectos, String categoria, Integer anio) {
         List<Proyecto> lista = new ArrayList<>();
-        boolean cumpleCategoria = categoria == null || categoria.equals("Todas") || categoria.isEmpty();
+        boolean cumpleCategoria = categoria == null || categoria.equals("todas") || categoria.isEmpty();
         boolean cumpleAnio = anio == null;
 
         for (Proyecto proyecto : proyectos) {

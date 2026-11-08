@@ -12,7 +12,6 @@
     --acento: #5ccb91;
     --acento-oscuro: #8fd9b1;
     --acento-claro: #27463a;
-    --error: #f1aeb5;
     --error-fondo: #4a1f25;
     --error-texto: #f8d7da;
     --gris: #5c636a;
@@ -84,8 +83,7 @@ a {
 a:focus-visible,
 button:focus-visible,
 input:focus-visible,
-select:focus-visible,
-textarea:focus-visible {
+select:focus-visible {
     outline: 2px solid var(--acento);
     outline-offset: 2px;
 }
@@ -105,7 +103,6 @@ nav {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: flex-start;
     gap: 6px 16px;
     padding: 10px 16px;
     background: var(--superficie);
@@ -146,8 +143,7 @@ body > a::before {
 }
 
 /* Párrafos sueltos, como el enlace de imprimir y su aviso. */
-body > p,
-body > p.aviso {
+body > p {
     width: min(var(--ancho), calc(100% - 32px));
     margin-left: auto;
     margin-right: auto;
@@ -174,8 +170,7 @@ body > header p {
    Apartados
    -------------------------------------------------------------------------- */
 
-body > section,
-main > section {
+body > section {
     margin-top: 16px;
     padding: 20px 24px;
     background: var(--superficie);
@@ -207,10 +202,6 @@ section li:last-child,
 main > ul > li:last-child {
     padding-bottom: 0;
     border-bottom: 0;
-}
-
-section li p {
-    margin: 4px 0 0;
 }
 
 /* Página de inicio. */
@@ -333,10 +324,13 @@ button:hover,
 }
 
 .tarjetas {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
+    /* Centra las tarjetas: una sola queda en medio, y lo mismo con dos o tres por fila. */
+    justify-content: center;
     gap: 16px;
-    margin-top: 16px;
+    width: min(var(--ancho), calc(100% - 32px));
+    margin: 16px auto 0;
 }
 
 .tarjeta {
@@ -348,6 +342,14 @@ button:hover,
     border: 1px solid var(--borde);
     border-radius: 8px;
     box-shadow: var(--sombra);
+    /* Ancho fijo: caben tres por fila en pantallas grandes. */
+    flex: 0 1 270px;
+}
+
+.tarjeta ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
 }
 
 .tarjeta h2,
@@ -383,7 +385,7 @@ button:hover,
 }
 
 /* --------------------------------------------------------------------------
-   Hito 3: formulario de edición
+   Formularios y avisos
    -------------------------------------------------------------------------- */
 
 form label {
@@ -394,8 +396,7 @@ form label {
 }
 
 input,
-select,
-textarea {
+select {
     width: 100%;
     padding: 8px 10px;
     border: 1px solid #55645c;
@@ -403,38 +404,6 @@ textarea {
     background: #1e2623;
     color: var(--texto);
     font: inherit;
-}
-
-textarea {
-    min-height: 90px;
-    resize: vertical;
-}
-
-.campo {
-    margin-bottom: 14px;
-}
-
-.fila-proyecto {
-    margin-bottom: 16px;
-    padding: 18px;
-    background: var(--fondo);
-    border: 1px solid var(--borde);
-    border-radius: 8px;
-}
-
-.botones {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 12px;
-}
-
-.error {
-    display: block;
-    margin-top: 4px;
-    color: var(--error);
-    font-size: .9rem;
-    font-weight: 600;
 }
 
 .aviso {
@@ -446,24 +415,14 @@ textarea {
     font-weight: 600;
 }
 
-.ayuda {
-    color: var(--texto-suave);
-    font-size: .9rem;
-}
-
 /* --------------------------------------------------------------------------
    Móvil
    -------------------------------------------------------------------------- */
 
 @media (max-width: 600px) {
     body > section,
-    main > section,
     main > ul {
         padding: 16px;
-    }
-
-    nav {
-        justify-content: flex-start;
     }
 
     .filtro input,
@@ -510,8 +469,7 @@ textarea {
         margin-top: 0;
     }
 
-    body > section,
-    main > section {
+    body > section {
         padding: 8px 0;
         border: 0;
         box-shadow: none;
