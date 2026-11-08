@@ -93,17 +93,20 @@
                 <span th:case="'alto'" class="nivel-alto">
                     <strong th:text="${f.idioma}">Idioma</strong> —
                     <span th:text="#{nivel.alto}">nivel alto</span>
-                    <span th:text="'(' + ${f.certificado} + ')'">(C1)</span>
+                    <span th:if="${f.certificado == 'Nativo'}" th:text="'(' + #{nivel.nativo} + ')'">(Nativo)</span>
+                    <span th:if="${f.certificado != 'Nativo'}" th:text="'(' + ${f.certificado} + ')'">(C1)</span>
                 </span>
             <span th:case="'medio'" class="nivel-medio">
                     <strong th:text="${f.idioma}">Idioma</strong> —
                     <span th:text="#{nivel.medio}">nivel medio</span>
-                    <span th:text="'(' + ${f.certificado} + ')'">(B2)</span>
+                    <span th:if="${f.certificado == 'Nativo'}" th:text="'(' + #{nivel.nativo} + ')'">(Nativo)</span>
+                    <span th:if="${f.certificado != 'Nativo'}" th:text="'(' + ${f.certificado} + ')'">(B2)</span>
                 </span>
             <span th:case="'bajo'" class="nivel-bajo">
                     <strong th:text="${f.idioma}">Idioma</strong> —
                     <span th:text="#{nivel.bajo}">nivel bajo</span>
-                    <span th:text="'(' + ${f.certificado} + ')'">(A2)</span>
+                    <span th:if="${f.certificado == 'Nativo'}" th:text="'(' + #{nivel.nativo} + ')'">(Nativo)</span>
+                    <span th:if="${f.certificado != 'Nativo'}" th:text="'(' + ${f.certificado} + ')'">(A2)</span>
                 </span>
         </li>
     </ul>

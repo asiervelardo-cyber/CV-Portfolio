@@ -7,7 +7,13 @@
     <link rel="stylesheet" th:href="@{/css/estilo.css}">
 </head>
 <body>
-    <a th:href="@{/}">Volver</a>
+    <nav th:attr="aria-label=#{language.label}">
+        <span th:text="#{language.label}">Idioma</span>
+        <a th:href="@{/curriculum(lang='es')}" lang="es">Español</a>
+        <a th:href="@{/curriculum(lang='en')}" lang="en">English</a>
+    </nav>
+
+    <a th:href="@{/}" th:text="#{inicio.nombre}">Inicio</a>
 
     <form class="filtro" method="get" th:action="@{/portfolio}">
 
@@ -18,7 +24,7 @@
                 <option value="aplicaciones" th:selected="${categoriaFiltro == 'aplicaciones'}"
                         th:text="#{categoria.aplicaciones}">Aplicaciones</option>
                 <option value="sitios-web" th:selected="${categoriaFiltro == 'sitios-web'}"
-                        th:text="#{categoria.sitiosWeb}">Sitios web</option>
+                        th:text="#{categoria.sitios-web}">Sitios web</option>
                 <option value="diseno" th:selected="${categoriaFiltro == 'diseno'}"
                         th:text="#{categoria.diseno}">Diseño</option>
             </select>
