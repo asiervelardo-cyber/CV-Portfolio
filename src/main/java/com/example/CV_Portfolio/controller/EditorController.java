@@ -14,13 +14,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-// Hito 3: el editor de /portfolio/editar y su vista previa.
-// No se guarda nada: todo vive en variables de cada petición.
+// Hito 3: editor y vista previa. No se guarda nada.
 @Controller
 public class EditorController {
 
-    // Primera vez que se abre el editor: formulario vacío con una fila de proyecto.
-    // "max" sale de portfolio.max-proyectos en application.properties.
+    // Formulario vacío con una fila de proyecto.
     @GetMapping("/portfolio/editar")
     public String mostrarFormulario(@Value("${portfolio.max-proyectos}") int max, Model model) {
         CurriculumForm form = new CurriculumForm();
@@ -28,14 +26,11 @@ public class EditorController {
 
         model.addAttribute("form", form);
         model.addAttribute("max", max);
-        // El mapa de errores va vacío, pero tiene que existir para que la plantilla no falle.
         model.addAttribute("errores", new HashMap<String, String>());
         return "editar";
     }
 
-    // Aquí llegan todos los botones del formulario.
-    // Spring rellena "form" con lo que se ha escrito, y "accion" dice qué botón se ha pulsado.
-    // Si se pulsa un botón de idioma, "accion" llega vacía y solo se vuelve a enseñar el formulario.
+    // "accion" dice qué botón se ha pulsado. Con los botones de idioma llega vacía.
     @PostMapping("/portfolio/editar")
     public String procesarFormulario(@ModelAttribute("form") CurriculumForm form,
                                      @RequestParam(name = "accion", defaultValue = "") String accion,
@@ -43,15 +38,13 @@ public class EditorController {
                                      Model model) {
         Map<String, String> errores = new HashMap<>();
 
-        // El límite se comprueba en todos los envíos, por si alguien manipula el formulario
-        // para mandar más filas de las permitidas.
+        // El límite se comprueba siempre, por si se manipula el formulario.
         if (form.getProyectos().size() > max) {
             errores.put("limite", "error.limite");
         } else if (accion.equals("anadir") || accion.startsWith("quitar-")) {
             modificarFilas(form, accion, max);
         } else if (accion.equals("generar")) {
             errores = validarDatos(form, max);
-            // Sin errores se pasa a la vista previa; "form" ya está en el modelo gracias a @ModelAttribute.
             if (errores.isEmpty()) {
                 return "vista-previa";
             }
@@ -63,36 +56,35 @@ public class EditorController {
     }
 
     // Añade o quita una fila según el botón pulsado.
-    // Los valores de las demás filas se mantienen solos, porque ya vienen dentro de "form".
-    public void modificarFilas(CurriculumForm form, String accion, int max){
+    public void modificarFilas(CurriculumForm form, String accion, int max) {
         List<ProyectoForm> proyectos = form.getProyectos();
-        if(accion.equals("anadir")){
-            if(proyectos.size()<max) {
+
+        if (accion.equals("anadir")) {
+            if (proyectos.size() < max) {
                 proyectos.add(new ProyectoForm());
             }
         }
-        // El botón de quitar manda "quitar-" y el número de fila, por ejemplo "quitar-2".
-        if(accion.startsWith("quitar-")){
+
+        // "quitar-2" quita la fila 2.
+        if (accion.startsWith("quitar-")) {
             try {
                 int indice = Integer.parseInt(accion.substring("quitar-".length()));
-                // Se comprueba que la fila existe, por si el número viene manipulado.
                 if (indice >= 0 && indice < proyectos.size()) {
                     proyectos.remove(indice);
                 }
             } catch (NumberFormatException e) {
-                // Si no es un número, se ignora y no se quita nada.
+                // Si no es un número, no se quita nada.
             }
         }
-        // Siempre tiene que quedar al menos una fila para poder seguir escribiendo.
+
+        // Siempre tiene que quedar una fila.
         if (proyectos.isEmpty()) {
             proyectos.add(new ProyectoForm());
         }
     }
 
-    // Revisa los datos y devuelve los errores encontrados.
-    // Cada error se guarda con el nombre del campo (por ejemplo "proyectos0.titulo")
-    // y la clave del mensaje que hay que enseñar (por ejemplo "error.obligatorio").
-    public Map<String, String> validarDatos(CurriculumForm form, int max){
+    // Devuelve los errores: campo como clave (ej. "proyectos0.titulo") y mensaje como valor.
+    public Map<String, String> validarDatos(CurriculumForm form, int max) {
         List<ProyectoForm> proyectos = form.getProyectos();
         Map<String, String> errores = new HashMap<>();
 
@@ -100,11 +92,10 @@ public class EditorController {
             errores.put("limite", "error.limite");
         }
 
-        // Las filas completamente vacías no cuentan como proyecto, así que se quitan.
-        // Se hace antes de validar para que el número de fila de cada error coincida con lo que se ve.
+        // Las filas vacías se quitan antes de validar, para que los números de fila coincidan.
         proyectos.removeIf(p -> p == null || filasVacias(p));
 
-        // Datos personales: nombre, titular y presentación son obligatorios.
+        // Datos personales.
         if (form.getNombre().isBlank()) {
             errores.put("nombre", "error.obligatorio");
         }
@@ -114,12 +105,12 @@ public class EditorController {
         if (form.getPresentacion().isBlank()) {
             errores.put("presentacion", "error.obligatorio");
         }
-        // El correo es opcional: solo se revisa su formato si se ha escrito algo.
-        if(!form.getCorreo().isBlank() && !form.getCorreo().matches("[^@\\s]+@[^@\\s]+\\.[^@\\s]+")){
+        // El correo es opcional: solo se revisa si está escrito.
+        if (!form.getCorreo().isBlank() && !form.getCorreo().matches("[^@\\s]+@[^@\\s]+\\.[^@\\s]+")) {
             errores.put("correo", "error.correo");
         }
 
-        // Proyectos: los cinco campos son obligatorios.
+        // Proyectos.
         for (int i = 0; i < proyectos.size(); i++) {
             ProyectoForm p = proyectos.get(i);
             String id = "proyectos" + i + ".";
@@ -128,14 +119,12 @@ public class EditorController {
                 errores.put(id + "titulo", "error.obligatorio");
             }
 
-            // El año tiene que ser un número de cuatro cifras.
             if (p.getAnio().isBlank()) {
                 errores.put(id + "anio", "error.obligatorio");
-            }else if(!p.getAnio().trim().matches("\\d{4}")){
+            } else if (!p.getAnio().trim().matches("\\d{4}")) {
                 errores.put(id + "anio", "error.anio");
             }
 
-            // Categoría y estado tienen que ser uno de los valores de la lista, aunque se manipule el HTML.
             if (!List.of("aplicaciones", "sitios-web", "diseno").contains(p.getCategoria())) {
                 errores.put(id + "categoria", "error.opcion");
             }
@@ -149,17 +138,17 @@ public class EditorController {
             }
         }
 
-        // Si al quitar las filas vacías no queda ninguna y hay que volver al formulario,
-        // se añade una vacía para que siempre haya una visible.
+        // Si no queda ninguna fila y hay errores, se añade una vacía.
         if (!errores.isEmpty() && proyectos.isEmpty()) {
             proyectos.add(new ProyectoForm());
         }
         return errores;
     }
 
-    // Dice si una fila está completamente vacía (los cinco campos sin rellenar).
-    public boolean filasVacias(ProyectoForm p){
-        if (p.getTitulo().isBlank()&&p.getAnio().isBlank()&&p.getCategoria().isBlank()&&p.getEstado().isBlank()&&p.getDescripcion().isBlank()){
+    // Una fila está vacía si no tiene nada escrito.
+    public boolean filasVacias(ProyectoForm p) {
+        if (p.getTitulo().isBlank() && p.getAnio().isBlank() && p.getCategoria().isBlank()
+                && p.getEstado().isBlank() && p.getDescripcion().isBlank()) {
             return true;
         }
         return false;

@@ -1,18 +1,18 @@
 package com.example.CV_Portfolio.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
-// Un proyecto del portfolio (Hito 2).
+// Un proyecto del portfolio.
 public class Proyecto {
-    private String nombre; // clave de messages.properties, para poder traducirlo
+
+    private String nombre;
     private int anio;
-    private String categoria; // "aplicaciones", "sitios-web" o "diseno"
-    private String descripcion; // clave de messages.properties
-    private String estado; // "en-curso" o "terminado"
+    private String categoria; // aplicaciones, sitios-web o diseno
+    private String descripcion;
+    private String estado; // en-curso o terminado
     private List<String> tecnologias;
-    private String enlace; // null si no tiene enlace
-    private String img; // null si no tiene imagen
+    private String enlace; // null si no tiene
+    private String img; // null si no tiene
 
     public Proyecto(String nombre, int anio, String categoria, String descripcion, String estado, List<String> tecnologias, String enlace, String img) {
         this.nombre = nombre;

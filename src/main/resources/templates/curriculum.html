@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
 <head>
-    <!-- Todas las páginas comparten la misma cabecera y el mismo CSS. -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title th:text="#{cv.titulo}">Curriculum</title>
     <link rel="stylesheet" th:href="@{/css/estilo.css}">
 </head>
 <body>
-<!-- Selector de idioma. -->
+<!-- Idioma -->
 <nav th:attr="aria-label=#{language.label}">
     <span th:text="#{language.label}">Idioma</span>
     <a th:href="@{/curriculum(lang='es')}" lang="es">Español</a>
@@ -17,16 +16,14 @@
 
 <a th:href="@{/}" th:text="#{inicio.nombre}">Inicio</a>
 
-<!-- Perfil: el nombre viene de cv.nombre en application.properties. -->
+<!-- Perfil -->
 <header>
     <h1 th:text="${nombre}">Nombre</h1>
     <h2 th:text="#{cv.profesion}">Titular profesional</h2>
     <p th:text="#{cv.presentacion}">Presentación de 2 a 4 frases.</p>
 </header>
 
-<!-- Imprimir: sin JavaScript no se puede abrir el diálogo, así que el enlace
-     recarga la página con ?imprimir=true y enseña el aviso de Ctrl+P.
-     "no-imprimir" hace que esto no salga en el PDF. -->
+<!-- Imprimir: enseña el aviso de Ctrl+P -->
 <p class="no-imprimir">
     <a th:href="@{/curriculum(imprimir=true)}" class="boton"
        th:text="#{cv.imprimir}">Imprimir o guardar como PDF</a>
@@ -36,7 +33,7 @@
     <a th:href="@{/curriculum}" th:text="#{cv.imprimir.cerrar}">Cerrar</a>
 </p>
 
-<!-- Si no hay contacto, se oculta el apartado entero, título incluido. -->
+<!-- Contacto: solo si hay -->
 <section th:if="${contacto != ''}">
     <h3 th:text="#{cv.contacto.titulo}">Contacto</h3>
     <p th:text="${contacto}">correo@ejemplo.com</p>
@@ -44,7 +41,6 @@
 
 <section>
     <h3 th:text="#{cv.formacion.titulo}">Formación</h3>
-    <!-- Si anioF es null, sigo estudiando y sale "En curso"; si no, el año en que acabé. -->
     <ul>
         <li th:each="f : ${formacion}">
             <strong th:text="#{${f.estudios}}">Estudios</strong> —
@@ -57,7 +53,6 @@
 
 <section>
     <h3 th:text="#{cv.experiencia.titulo}">Experiencia</h3>
-    <!-- Fuera del th:each: con el array vacío, el bucle no se ejecuta. -->
     <p th:if="${experiencia.length == 0}" th:text="#{cv.experiencia.vacia}">En busca de mi primera experiencia</p>
     <ul th:if="${experiencia.length > 0}">
         <li th:each="f : ${experiencia}">
@@ -72,8 +67,6 @@
 
 <section>
     <h3 th:text="#{cv.habilidades.titulo}">Habilidades</h3>
-    <!-- th:switch elige el color según el nivel: cada th:case pone su clase
-         (nivel-alto, nivel-medio o nivel-bajo). -->
     <ul class="niveles">
         <li th:each="f : ${habilidad}" th:switch="${f.nivel}">
                 <span th:case="'alto'" class="nivel-alto">
@@ -97,7 +90,6 @@
 
 <section>
     <h3 th:text="#{cv.idioma.titulo}">Idiomas</h3>
-    <!-- Igual que habilidades. "Nativo" se traduce; otros certificados (C1, B2...) salen tal cual. -->
     <ul class="niveles">
         <li th:each="f : ${idioma}" th:switch="${f.nivel}">
                 <span th:case="'alto'" class="nivel-alto">

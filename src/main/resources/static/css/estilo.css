@@ -1,9 +1,3 @@
-/* ==========================================================================
-   Estilos de toda la web: inicio, currículum, portfolio, editor y vista previa.
-   Tema oscuro en verde grisáceo. Los colores de los niveles son los del enunciado.
-   ========================================================================== */
-
-/* Colores y medidas que se repiten. Si quiero cambiar un color, lo cambio solo aquí. */
 :root {
     --fondo: #1a211e;
     --superficie: #242e2a;
@@ -22,15 +16,10 @@
     --sombra: 0 6px 20px rgb(0 0 0 / 25%);
 }
 
-/* --------------------------------------------------------------------------
-   Base
-   -------------------------------------------------------------------------- */
-
 * {
     box-sizing: border-box;
 }
 
-/* Un brillo verde muy suave arriba para que el fondo no quede plano. */
 body {
     margin: 0;
     padding-bottom: 64px;
@@ -42,7 +31,6 @@ body {
     font: 16px/1.65 "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
 }
 
-/* Todo el contenido tiene el mismo ancho y va centrado. */
 body > header,
 body > section,
 body > form,
@@ -69,7 +57,6 @@ h2 {
     font-weight: 600;
 }
 
-/* Títulos de los apartados: pequeños, en mayúsculas y con una línea que rellena el resto. */
 h3 {
     display: flex;
     align-items: center;
@@ -106,7 +93,6 @@ a:hover {
     color: var(--acento-hover);
 }
 
-/* Borde visible al moverse con el teclado (Tab). */
 a:focus-visible,
 button:focus-visible,
 input:focus-visible,
@@ -121,10 +107,6 @@ img {
     max-width: 100%;
     height: auto;
 }
-
-/* --------------------------------------------------------------------------
-   Selector de idioma (arriba a la izquierda, se queda fijo al bajar)
-   -------------------------------------------------------------------------- */
 
 nav {
     position: sticky;
@@ -146,7 +128,6 @@ nav span {
     color: var(--texto-suave);
 }
 
-/* Cada idioma parece una pastilla. */
 nav a {
     padding: 3px 12px;
     border: 1px solid var(--borde);
@@ -159,10 +140,6 @@ nav a:hover {
     border-color: var(--acento);
     background: var(--acento-suave);
 }
-
-/* --------------------------------------------------------------------------
-   Enlace de volver ("← Inicio", "← Volver al editor")
-   -------------------------------------------------------------------------- */
 
 body > a {
     display: block;
@@ -180,10 +157,6 @@ body > a:hover {
     text-decoration: underline;
 }
 
-/* --------------------------------------------------------------------------
-   Página de inicio
-   -------------------------------------------------------------------------- */
-
 main {
     margin-top: 56px;
 }
@@ -192,7 +165,6 @@ main > h1 {
     margin-bottom: 28px;
 }
 
-/* El menú son tres tarjetas en fila (una debajo de otra en el móvil). */
 .menu {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -229,10 +201,6 @@ main > h1 {
     transform: translateY(-2px);
 }
 
-/* --------------------------------------------------------------------------
-   Cabecera del currículum y de la vista previa
-   -------------------------------------------------------------------------- */
-
 body > header {
     margin-top: 28px;
     margin-bottom: 24px;
@@ -245,10 +213,6 @@ body > header p {
     color: var(--texto-suave);
     font-size: 1.08rem;
 }
-
-/* --------------------------------------------------------------------------
-   Apartados (Contacto, Formación, Experiencia...)
-   -------------------------------------------------------------------------- */
 
 body > section,
 form > section {
@@ -266,7 +230,6 @@ section ul {
     list-style: none;
 }
 
-/* Formación y experiencia: una fila por elemento, separadas por una línea. */
 section li {
     padding: 10px 0;
     border-bottom: 1px solid var(--borde);
@@ -281,12 +244,6 @@ section li:last-child {
     border-bottom: 0;
 }
 
-/* --------------------------------------------------------------------------
-   Niveles de habilidades e idiomas
-   Los colores (#198754, #8fd19e y #d1e7dd) son los que pide el enunciado.
-   -------------------------------------------------------------------------- */
-
-/* Las habilidades e idiomas se ponen en fila, como fichas. */
 .niveles {
     display: flex;
     flex-wrap: wrap;
@@ -322,10 +279,6 @@ section li:last-child {
     color: #14231b;
 }
 
-/* --------------------------------------------------------------------------
-   Botones
-   -------------------------------------------------------------------------- */
-
 button,
 .boton {
     display: inline-block;
@@ -349,7 +302,6 @@ button:hover,
     transform: translateY(-1px);
 }
 
-/* Botón claro, para acciones secundarias (idioma del editor, "Mostrar todos", "Añadir"). */
 .boton-secundario {
     background: transparent;
     color: var(--acento);
@@ -360,7 +312,6 @@ button:hover,
     color: var(--acento-hover);
 }
 
-/* "Quitar este proyecto": en rojo suave, para que se note que borra. */
 .boton-quitar {
     margin-top: 16px;
     border-color: var(--error);
@@ -374,17 +325,11 @@ button:hover,
     color: var(--error);
 }
 
-/* Separación entre botones que van seguidos. */
 button + button,
 button + .boton {
     margin-left: 8px;
 }
 
-/* --------------------------------------------------------------------------
-   Avisos y textos de ayuda
-   -------------------------------------------------------------------------- */
-
-/* Aviso en rojo: "Revisa los campos indicados", "Introduce un año válido"... */
 .aviso {
     margin-top: 16px;
     margin-bottom: 16px;
@@ -411,10 +356,6 @@ button + .boton {
 .resultados {
     margin-top: 20px;
 }
-
-/* --------------------------------------------------------------------------
-   Portfolio: filtro
-   -------------------------------------------------------------------------- */
 
 .filtro {
     display: flex;
@@ -443,11 +384,6 @@ button + .boton {
     margin-left: 0;
 }
 
-/* --------------------------------------------------------------------------
-   Portfolio y vista previa: tarjetas de proyectos
-   -------------------------------------------------------------------------- */
-
-/* Las tarjetas van centradas: si hay una, queda en medio; si hay dos, las dos centradas. */
 .tarjetas {
     display: flex;
     flex-wrap: wrap;
@@ -475,7 +411,6 @@ button + .boton {
     transform: translateY(-3px);
 }
 
-/* La imagen está al final en el HTML, pero aquí se coloca arriba y ocupa todo el ancho. */
 .tarjeta img {
     order: -1;
     width: calc(100% + 40px);
@@ -495,13 +430,11 @@ button + .boton {
     margin: 0;
 }
 
-/* Año y categoría, debajo del título. */
 .tarjeta h2 + p {
     color: var(--texto-suave);
     font-size: .9rem;
 }
 
-/* "Tecnologías" más pequeño que en el currículum. */
 .tarjeta h3 {
     margin-bottom: 8px;
     font-size: .72rem;
@@ -516,7 +449,6 @@ button + .boton {
     list-style: none;
 }
 
-/* "Ver proyecto" abajo del todo, con flecha. */
 .tarjeta > a {
     margin-top: auto;
     font-weight: 600;
@@ -531,7 +463,6 @@ button + .boton {
     text-decoration: underline;
 }
 
-/* Etiquetas: tecnologías y estado del proyecto. */
 .etiqueta {
     display: inline-block;
     padding: 3px 11px;
@@ -542,7 +473,6 @@ button + .boton {
     font-weight: 600;
 }
 
-/* Estado: verde "En curso", gris "Terminado". */
 .etiqueta-curso {
     background: #198754;
     color: #ffffff;
@@ -552,10 +482,6 @@ button + .boton {
     background: var(--gris);
     color: #ffffff;
 }
-
-/* --------------------------------------------------------------------------
-   Formularios (filtro y editor)
-   -------------------------------------------------------------------------- */
 
 label {
     display: block;
@@ -594,10 +520,6 @@ textarea {
     resize: vertical;
 }
 
-/* --------------------------------------------------------------------------
-   Editor (/portfolio/editar)
-   -------------------------------------------------------------------------- */
-
 body > form:not(.filtro) {
     margin-top: 16px;
     padding: 24px 28px;
@@ -607,7 +529,6 @@ body > form:not(.filtro) {
     box-shadow: var(--sombra);
 }
 
-/* Botones de idioma del editor, pequeños y arriba. */
 .botones {
     display: flex;
     gap: 8px;
@@ -621,7 +542,6 @@ body > form:not(.filtro) {
     font-size: .88rem;
 }
 
-/* Cada fila de proyecto va en su propio recuadro. */
 .fila-proyecto {
     margin: 16px 0;
     padding: 4px 20px 20px;
@@ -630,21 +550,18 @@ body > form:not(.filtro) {
     border-radius: var(--radio);
 }
 
-/* El contador de filas, justo antes de los proyectos. */
 form > .ayuda {
     margin-top: 28px;
     padding-top: 20px;
     border-top: 1px solid var(--borde);
 }
 
-/* El aviso del límite va después de las filas, sin la línea de arriba. */
 .fila-proyecto ~ .ayuda {
     margin-top: 16px;
     padding-top: 0;
     border-top: 0;
 }
 
-/* Mensaje de error de un campo. En el HTML va justo antes de la etiqueta del campo. */
 .error {
     display: block;
     margin-top: 16px;
@@ -660,10 +577,6 @@ form > .ayuda {
 .error + label {
     margin-top: 2px;
 }
-
-/* --------------------------------------------------------------------------
-   Móvil
-   -------------------------------------------------------------------------- */
 
 @media (max-width: 600px) {
     body > section,
@@ -685,20 +598,14 @@ form > .ayuda {
     }
 }
 
-/* Quita las animaciones si el usuario las tiene desactivadas en su sistema. */
 @media (prefers-reduced-motion: reduce) {
     * {
         transition: none !important;
     }
 }
 
-/* --------------------------------------------------------------------------
-   Imprimir o guardar como PDF
-   -------------------------------------------------------------------------- */
-
 @media print {
-    /* Al imprimir, fondo blanco y texto oscuro. */
-    :root {
+        :root {
         --fondo: #ffffff;
         --superficie: #ffffff;
         --texto: #1c2b24;
@@ -713,8 +620,7 @@ form > .ayuda {
         background: #ffffff;
     }
 
-    /* No salen el menú, los enlaces de volver ni el botón de imprimir. */
-    nav,
+        nav,
     body > a,
     .no-imprimir {
         display: none;
@@ -736,8 +642,7 @@ form > .ayuda {
         break-inside: avoid;
     }
 
-    /* Sin esto, el navegador puede quitar los colores de fondo de los niveles. */
-    .nivel-alto,
+        .nivel-alto,
     .nivel-medio,
     .nivel-bajo,
     .etiqueta {

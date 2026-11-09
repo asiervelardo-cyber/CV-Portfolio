@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
 <head>
-    <!-- Todas las páginas comparten la misma cabecera y el mismo CSS. -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title th:text="#{editar.titulo}">Editar portfolio</title>
@@ -11,20 +10,19 @@
     <a th:href="@{/}" th:text="#{inicio.nombre}">Inicio</a>
 
     <form method="post" th:action="@{/portfolio/editar}" novalidate>
-        <!-- Botón oculto: al pulsar Enter, el navegador usa el primer botón del formulario.
-             Con este, Enter no borra la primera fila. -->
+        <!-- Botón oculto: evita que Enter borre la primera fila -->
         <button type="submit" name="accion" value="" style="display: none" tabindex="-1"></button>
 
-        <!-- Idioma con botones, no con enlaces: así se envía lo escrito y no se pierde. -->
+        <!-- Idioma con botones para no perder lo escrito -->
         <div class="botones">
             <button type="submit" name="lang" value="es" class="boton-secundario" lang="es">Español</button>
             <button type="submit" name="lang" value="en" class="boton-secundario" lang="en">English</button>
         </div>
 
-        <!-- Aviso general: solo sale si hay algún error. -->
+        <!-- Aviso de errores -->
         <p class="aviso" th:if="${errores.size() > 0}" th:text="#{editar.revisa}">Revisa los campos indicados</p>
 
-        <!-- Datos personales. Cada error sale junto a su campo. -->
+        <!-- Datos personales -->
         <span class="error" th:if="${errores.containsKey('nombre')}" th:text="#{${errores['nombre']}}"></span>
         <label for="nombre" th:text="#{editar.nombre}">Nombre</label>
         <input type="text" id="nombre" name="nombre" th:value="${form.nombre}">
@@ -44,11 +42,9 @@
         <label for="correo" th:text="#{editar.correo}">Correo electrónico</label>
         <input type="text" id="correo" name="correo" th:value="${form.correo}">
 
-        <!-- Contador de filas y límite. -->
+        <!-- Proyectos -->
         <p class="ayuda" th:text="#{editar.filas} + ': ' + ${form.proyectos.size()} + ' / ' + ${max}">Filas: 1 / 5</p>
         <span class="error" th:if="${errores.containsKey('limite')}" th:text="#{${errores['limite']}}"></span>
-        <!-- Una fila por proyecto. El name lleva el número de fila (proyectos[0].titulo...)
-             para que Spring guarde cada valor en su sitio. -->
         <div class="fila-proyecto" th:each="p, i : ${form.proyectos}">
             <span class="error" th:if="${errores.containsKey('proyectos' + i.index + '.titulo')}" th:text="#{${errores['proyectos' + i.index + '.titulo']}}"></span>
             <label th:for="|titulo-${i.index}|" th:text="#{editar.proyecto.titulo}">Título</label>
@@ -81,7 +77,7 @@
 
             <button type="submit" name="accion" class="boton-quitar" th:value="|quitar-${i.index}|" th:text="#{editar.quitar}">Quitar este proyecto</button>
         </div>
-        <!-- Al llegar al máximo se esconde "Añadir" y sale el aviso del límite. -->
+        <!-- Botones -->
         <button type="submit" name="accion" value="anadir" class="boton-secundario" th:if="${form.proyectos.size() lt max}" th:text="#{editar.anadir}">Añadir proyecto</button>
         <p class="ayuda" th:unless="${form.proyectos.size() lt max}" th:text="#{editar.limite}">Has alcanzado el límite de proyectos</p>
 

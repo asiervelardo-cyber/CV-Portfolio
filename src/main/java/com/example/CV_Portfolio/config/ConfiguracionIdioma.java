@@ -10,13 +10,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
-// Aquí se configura el cambio de idioma de toda la web (español e inglés).
-// Es la misma clase que el proyecto P6 del profesor.
+// Configuración del idioma, igual que en el proyecto P6.
+// Español por defecto, y se cambia con ?lang=es o ?lang=en.
 @Configuration
 public class ConfiguracionIdioma implements WebMvcConfigurer {
 
-    // Guarda el idioma elegido en la sesión, así se mantiene al cambiar de página.
-    // Si todavía no se ha elegido ninguno, la web sale en español.
     @Bean
     public LocaleResolver localeResolver() {
         SessionLocaleResolver resolvedor = new SessionLocaleResolver();
@@ -24,8 +22,6 @@ public class ConfiguracionIdioma implements WebMvcConfigurer {
         return resolvedor;
     }
 
-    // Permite cambiar el idioma añadiendo ?lang=en o ?lang=es a cualquier ruta.
-    // También funciona con los botones del editor, que lo envían por POST.
     @Bean
     public LocaleChangeInterceptor localeChangeInterceptor() {
         LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
@@ -33,7 +29,6 @@ public class ConfiguracionIdioma implements WebMvcConfigurer {
         return interceptor;
     }
 
-    // Activa lo anterior: Spring mira el parámetro "lang" antes de llegar al controlador.
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());

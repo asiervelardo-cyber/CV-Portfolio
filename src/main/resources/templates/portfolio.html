@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
 <head>
-    <!-- Todas las páginas comparten la misma cabecera y el mismo CSS. -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title th:text="#{portfolio.titulo}">Portfolio</title>
     <link rel="stylesheet" th:href="@{/css/estilo.css}">
 </head>
 <body>
-    <!-- Selector de idioma: también envía el filtro, para no perderlo al cambiar de idioma. -->
+    <!-- Idioma (mantiene el filtro) -->
     <nav th:attr="aria-label=#{language.label}">
         <span th:text="#{language.label}">Idioma</span>
         <a th:href="@{/portfolio(lang='es',categoria=${categoriaFiltro},anio=${anioFiltro})}" lang="es">Español</a>
@@ -17,8 +16,7 @@
 
     <a th:href="@{/}" th:text="#{inicio.nombre}">Inicio</a>
 
-    <!-- Filtro: es un GET, así que los datos van en la URL y los filtra el servidor.
-         th:selected y th:value hacen que se sigan viendo los valores elegidos. -->
+    <!-- Filtro -->
     <form class="filtro" method="get" th:action="@{/portfolio}">
 
         <div>
@@ -46,17 +44,16 @@
 
     <p class="aviso" th:if="${errorAnio}" th:text="#{filtro.anioInvalido}">Introduce un año válido</p>
 
-    <!-- Número de resultados, y aviso si no hay ninguno. -->
+    <!-- Resultados -->
     <p class="resultados" th:text="#{portfolio.resultados} + ': ' + ${totalResultados}">Resultados: 3</p>
     <p th:if="${totalResultados == 0}" th:text="#{portfolio.vacio}">No se encontraron proyectos</p>
 
-    <!-- Una tarjeta por cada proyecto filtrado. -->
+    <!-- Proyectos -->
     <div class="tarjetas">
         <article class="tarjeta" th:each="p : ${filtrado}">
             <h2 th:text="#{${p.nombre}}">Título del proyecto</h2>
             <p th:text="${p.anio} + ' · ' + #{'categoria.' + ${p.categoria}}">2024 · Aplicaciones</p>
 
-            <!-- Etiqueta verde para "En curso" y gris para "Terminado". -->
             <div th:switch="${p.estado}">
             <span th:case="'en-curso'" class="etiqueta etiqueta-curso"
                   th:text="#{estado.enCurso}">En curso</span>
@@ -66,7 +63,6 @@
 
             <p th:text="#{${p.descripcion}}">Descripción de dos o tres frases.</p>
 
-            <!-- Si no hay tecnologías, se oculta el apartado entero. -->
             <div th:if="${p.tecnologias.size() > 0}">
                 <h3 th:text="#{portfolio.tecnologias}">Tecnologías</h3>
                 <ul>
@@ -74,7 +70,6 @@
                 </ul>
             </div>
 
-            <!-- El enlace y la imagen solo aparecen si el proyecto los tiene. -->
             <a th:if="${p.enlace != null}" th:href="${p.enlace}"
                th:text="#{portfolio.verProyecto}">Ver proyecto</a>
             <img th:if="${p.img != null}" th:src="@{${p.img}}"

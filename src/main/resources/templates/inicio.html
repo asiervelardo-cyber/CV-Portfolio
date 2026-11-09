@@ -1,20 +1,19 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
 <head>
-    <!-- Todas las páginas comparten la misma cabecera y el mismo CSS. -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title th:text="#{inicio.titulo}">Inicio</title>
     <link rel="stylesheet" th:href="@{/css/estilo.css}">
 </head>
 <body>
-<!-- Selector de idioma: el enlace añade ?lang=es o ?lang=en a la ruta. -->
+<!-- Idioma -->
 <nav th:attr="aria-label=#{language.label}">
     <span th:text="#{language.label}">Idioma</span>
     <a th:href="@{/(lang='es')}" lang="es">Español</a>
     <a th:href="@{/(lang='en')}" lang="en">English</a>
 </nav>
-<!-- Menú con las tres páginas del proyecto. -->
+<!-- Menú -->
 <main>
     <h1 th:text="#{inicio.titulo}">Inicio</h1>
     <ul class="menu">
