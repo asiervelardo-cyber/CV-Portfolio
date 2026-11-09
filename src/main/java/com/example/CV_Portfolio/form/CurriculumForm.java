@@ -16,15 +16,6 @@ public class CurriculumForm {
 
     public CurriculumForm() {}
 
-    public CurriculumForm(String nombre, String titular, String presentacion, String ciudad, String correo, List<ProyectoForm> proyectos) {
-        this.nombre = nombre;
-        this.titular = titular;
-        this.presentacion = presentacion;
-        this.ciudad = ciudad;
-        this.correo = correo;
-        this.proyectos = proyectos;
-    }
-
     public String getNombre() {
         return nombre;
     }

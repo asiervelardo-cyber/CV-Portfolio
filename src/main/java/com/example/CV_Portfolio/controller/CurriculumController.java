@@ -22,20 +22,20 @@ public class CurriculumController {
 
     // anioF = null significa que está en curso.
     private static final Formacion[] FORMACION = {
-            new Formacion("dato.estudios.daw", "IES Velázquez", 2025, null)
+            new Formacion("dato.estudios.daw", "IES Velázquez", null)
     };
 
     // Nivel siempre en minúsculas: alto, medio o bajo.
     private static final Habilidad[] HABILIDAD = {
-            new Habilidad("HTML", 2, "alto"),
-            new Habilidad("Java", 2, "alto"),
-            new Habilidad("CSS", 2, "medio"),
-            new Habilidad("Spring Boot", 1, "bajo")
+            new Habilidad("HTML", "alto"),
+            new Habilidad("Java", "alto"),
+            new Habilidad("CSS", "medio"),
+            new Habilidad("Spring Boot", "bajo")
     };
 
     private static final Idioma[] IDIOMA = {
-            new Idioma("dato.idioma.espanol", 19, "alto", "Nativo"),
-            new Idioma("dato.idioma.ingles", 10, "alto", "C1")
+            new Idioma("dato.idioma.espanol", "alto", "Nativo"),
+            new Idioma("dato.idioma.ingles", "alto", "C1")
     };
 
     // Si se deja vacío, no sale el apartado de contacto.

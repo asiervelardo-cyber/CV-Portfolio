@@ -12,14 +12,6 @@ public class ProyectoForm {
 
     public ProyectoForm() {}
 
-    public ProyectoForm(String titulo, String anio, String categoria, String estado, String descripcion) {
-        this.titulo = titulo;
-        this.anio = anio;
-        this.categoria = categoria;
-        this.estado = estado;
-        this.descripcion = descripcion;
-    }
-
     public String getTitulo() {
         return titulo;
     }

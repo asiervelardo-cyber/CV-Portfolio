@@ -43,7 +43,7 @@ public class PortfolioController {
     private List<Proyecto> crearProyectos() {
         List<Proyecto> lista = new ArrayList<>();
 
-        // Con todos los datos.
+        // Sin enlace.
         lista.add(new Proyecto("proyecto.gestor.titulo", 2023, "aplicaciones",
                 "proyecto.gestor.descripcion", "terminado",
                 List.of("Java", "Spring Boot", "Thymeleaf"),
@@ -57,10 +57,10 @@ public class PortfolioController {
                 null,
                 null));
 
-        // Sin tecnologías ni imagen.
-        lista.add(new Proyecto("proyecto.club.titulo", 2026, "diseno",
+        // Con todos los datos.
+        lista.add(new Proyecto("proyecto.club.titulo", 2026, "aplicaciones",
                 "proyecto.club.descripcion", "en-curso",
-                List.of(),
+                List.of("HTML", "CSS", "JavaScript"),
                 "https://github.com/asiervelardo-cyber/juego",
                 "/img/juego.png"));
 

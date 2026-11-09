@@ -79,17 +79,14 @@
                 <span th:case="'alto'" class="nivel-alto">
                     <strong th:text="${f.habilidad}">Habilidad</strong> —
                     <span th:text="#{nivel.alto}">nivel alto</span>
-                    <span th:text="'| ' + #{cv.anios} + ': ' + ${f.aniosExperiencia}">| Años: 2</span>
                 </span>
                 <span th:case="'medio'" class="nivel-medio">
                         <strong th:text="${f.habilidad}">Habilidad</strong> —
                         <span th:text="#{nivel.medio}">nivel medio</span>
-                        <span th:text="'| ' + #{cv.anios} + ': ' + ${f.aniosExperiencia}">| Años: 2</span>
                     </span>
                 <span th:case="'bajo'" class="nivel-bajo">
                         <strong th:text="${f.habilidad}">Habilidad</strong> —
                         <span th:text="#{nivel.bajo}">nivel bajo</span>
-                        <span th:text="'| ' + #{cv.anios} + ': ' + ${f.aniosExperiencia}">| Años: 2</span>
                     </span>
             </li>
         </ul>
