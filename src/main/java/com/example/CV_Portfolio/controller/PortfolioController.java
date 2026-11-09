@@ -47,7 +47,7 @@ public class PortfolioController {
         lista.add(new Proyecto("proyecto.gestor.titulo", 2023, "aplicaciones",
                 "proyecto.gestor.descripcion", "terminado",
                 List.of("Java", "Spring Boot", "Thymeleaf"),
-                "https://github.com/asiervelardo-cyber/juego",
+                null,
                 "/img/gestor-de-tareas.webp"));
 
         // Sin enlace ni imagen.
@@ -62,7 +62,7 @@ public class PortfolioController {
                 "proyecto.club.descripcion", "terminado",
                 List.of(),
                 "https://github.com/asiervelardo-cyber/juego",
-                null));
+                "/img/juego.png"));
 
         return lista;
     }
