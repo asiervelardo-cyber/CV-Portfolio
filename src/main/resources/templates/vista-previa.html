@@ -1,11 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
 <head>
+    <!-- Todas las páginas comparten la misma cabecera y el mismo CSS. -->
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="#{vista.titulo}">Vista previa</title>
     <link rel="stylesheet" th:href="@{/css/estilo.css}">
 </head>
 <body>
+    <!-- La vista previa no se guarda: volver al editor empieza de cero. -->
+    <a th:href="@{/portfolio/editar}" th:text="#{vista.volver}">Volver al editor</a>
 
+    <!-- Cada dato del perfil solo sale si se ha escrito. -->
+    <header>
+        <h1 th:if="${!form.nombre.isBlank()}" th:text="${form.nombre}">Nombre</h1>
+        <h2 th:if="${!form.titular.isBlank()}" th:text="${form.titular}">Titular profesional</h2>
+        <p th:if="${!form.presentacion.isBlank()}" th:text="${form.presentacion}">Presentación.</p>
+    </header>
+
+    <!-- Contacto: si no hay ciudad ni correo, desaparece el apartado entero. -->
+    <section th:if="${!form.ciudad.isBlank() or !form.correo.isBlank()}">
+        <h3 th:text="#{vista.contacto}">Contacto</h3>
+        <p th:if="${!form.ciudad.isBlank()}" th:text="#{vista.ciudad} + ': ' + ${form.ciudad}">Ciudad: Sevilla</p>
+        <p th:if="${!form.correo.isBlank()}" th:text="${form.correo}">correo@ejemplo.com</p>
+    </section>
+
+    <p th:if="${form.proyectos.size() == 0}" th:text="#{vista.sinProyectos}">Todavía no hay proyectos en este portfolio</p>
+
+    <!-- Los proyectos, con las mismas tarjetas que el portfolio. -->
+    <div class="tarjetas">
+        <article class="tarjeta" th:each="p : ${form.proyectos}">
+            <h2 th:text="${p.titulo}">Título del proyecto</h2>
+            <p th:text="${p.anio} + ' · ' + #{'categoria.' + ${p.categoria}}">2024 · Aplicaciones</p>
+
+            <!-- Etiqueta verde para "En curso" y gris para "Terminado". -->
+            <div th:switch="${p.estado}">
+                <span th:case="'en-curso'" class="etiqueta etiqueta-curso" th:text="#{estado.enCurso}">En curso</span>
+                <span th:case="'terminado'" class="etiqueta etiqueta-terminado" th:text="#{estado.terminado}">Terminado</span>
+            </div>
+
+            <p th:text="${p.descripcion}">Descripción del proyecto.</p>
+        </article>
+    </div>
 </body>
 </html>

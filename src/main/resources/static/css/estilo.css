@@ -1,22 +1,25 @@
 /* ==========================================================================
-   Estilos del currículum y portfolio.
-   Colócalo en: src/main/resources/static/css/estilo.css
+   Estilos de toda la web: inicio, currículum, portfolio, editor y vista previa.
+   Tema oscuro en verde grisáceo. Los colores de los niveles son los del enunciado.
    ========================================================================== */
 
+/* Colores y medidas que se repiten. Si quiero cambiar un color, lo cambio solo aquí. */
 :root {
-    --fondo: #1e2623;
-    --superficie: #2a3430;
-    --texto: #e6ece8;
-    --texto-suave: #a9b7af;
-    --borde: #3d4a44;
+    --fondo: #1a211e;
+    --superficie: #242e2a;
+    --superficie-alta: #2c3833;
+    --texto: #e8eee9;
+    --texto-suave: #a3b2a9;
+    --borde: #36443d;
     --acento: #5ccb91;
-    --acento-oscuro: #8fd9b1;
-    --acento-claro: #27463a;
-    --error-fondo: #4a1f25;
-    --error-texto: #f8d7da;
+    --acento-hover: #7fd9a9;
+    --acento-suave: rgb(92 203 145 / 14%);
+    --error: #f2a7af;
+    --error-fondo: #4a2127;
     --gris: #5c636a;
-    --ancho: 860px;
-    --sombra: 0 2px 6px rgb(0 0 0 / 30%);
+    --ancho: 880px;
+    --radio: 12px;
+    --sombra: 0 6px 20px rgb(0 0 0 / 25%);
 }
 
 /* --------------------------------------------------------------------------
@@ -27,19 +30,26 @@
     box-sizing: border-box;
 }
 
+/* Un brillo verde muy suave arriba para que el fondo no quede plano. */
 body {
     margin: 0;
-    padding-bottom: 48px;
-    background: var(--fondo);
+    padding-bottom: 64px;
+    background:
+        radial-gradient(900px 400px at 50% -120px, rgb(92 203 145 / 12%), transparent 70%),
+        var(--fondo);
+    background-attachment: fixed;
     color: var(--texto);
-    font: 16px/1.6 "Segoe UI", system-ui, Arial, sans-serif;
+    font: 16px/1.65 "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
 }
 
-/* Todo el contenido comparte el mismo ancho y queda centrado. */
+/* Todo el contenido tiene el mismo ancho y va centrado. */
 body > header,
 body > section,
 body > form,
-main {
+body > p,
+body > a,
+main,
+.tarjetas {
     width: min(var(--ancho), calc(100% - 32px));
     margin-left: auto;
     margin-right: auto;
@@ -47,25 +57,36 @@ main {
 
 h1 {
     margin: 0;
-    font-size: clamp(2rem, 6vw, 2.8rem);
-    line-height: 1.1;
-    letter-spacing: -.01em;
+    font-size: clamp(2.2rem, 6vw, 3.2rem);
+    line-height: 1.05;
+    letter-spacing: -.02em;
 }
 
 h2 {
-    margin: 4px 0 14px;
+    margin: 6px 0 14px;
     color: var(--acento);
     font-size: 1.2rem;
     font-weight: 600;
 }
 
+/* Títulos de los apartados: pequeños, en mayúsculas y con una línea que rellena el resto. */
 h3 {
-    margin: 0 0 14px;
-    color: var(--acento-oscuro);
-    font-size: .85rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0 0 16px;
+    color: var(--acento);
+    font-size: .8rem;
     font-weight: 700;
-    letter-spacing: .08em;
+    letter-spacing: .12em;
     text-transform: uppercase;
+}
+
+h3::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--borde);
 }
 
 p {
@@ -78,12 +99,19 @@ p:last-child {
 
 a {
     color: var(--acento);
+    text-underline-offset: 3px;
 }
 
+a:hover {
+    color: var(--acento-hover);
+}
+
+/* Borde visible al moverse con el teclado (Tab). */
 a:focus-visible,
 button:focus-visible,
 input:focus-visible,
-select:focus-visible {
+select:focus-visible,
+textarea:focus-visible {
     outline: 2px solid var(--acento);
     outline-offset: 2px;
 }
@@ -92,154 +120,190 @@ img {
     display: block;
     max-width: 100%;
     height: auto;
-    border-radius: 6px;
 }
 
 /* --------------------------------------------------------------------------
-   Menú y selector de idioma
+   Selector de idioma (arriba a la izquierda, se queda fijo al bajar)
    -------------------------------------------------------------------------- */
 
 nav {
+    position: sticky;
+    top: 0;
+    z-index: 10;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 6px 16px;
+    gap: 6px;
     padding: 10px 16px;
-    background: var(--superficie);
+    background: rgb(26 33 30 / 85%);
+    backdrop-filter: blur(8px);
     border-bottom: 1px solid var(--borde);
-    font-size: .92rem;
+    font-size: .9rem;
 }
 
 nav span {
+    margin-right: 6px;
     color: var(--texto-suave);
 }
 
+/* Cada idioma parece una pastilla. */
 nav a {
+    padding: 3px 12px;
+    border: 1px solid var(--borde);
+    border-radius: 999px;
     font-weight: 600;
     text-decoration: none;
 }
 
 nav a:hover {
-    text-decoration: underline;
+    border-color: var(--acento);
+    background: var(--acento-suave);
 }
 
-/* Enlace de vuelta al inicio, alineado con el contenido. */
+/* --------------------------------------------------------------------------
+   Enlace de volver ("← Inicio", "← Volver al editor")
+   -------------------------------------------------------------------------- */
+
 body > a {
     display: block;
-    width: min(var(--ancho), calc(100% - 32px));
-    margin: 20px auto 0;
-    color: var(--acento);
+    margin-top: 24px;
     font-size: .92rem;
     font-weight: 600;
     text-decoration: none;
-}
-
-body > a:hover {
-    text-decoration: underline;
 }
 
 body > a::before {
     content: "← ";
 }
 
-/* Párrafos sueltos, como el enlace de imprimir y su aviso. */
-body > p {
-    width: min(var(--ancho), calc(100% - 32px));
-    margin-left: auto;
-    margin-right: auto;
+body > a:hover {
+    text-decoration: underline;
 }
 
 /* --------------------------------------------------------------------------
-   Cabecera del currículum
+   Página de inicio
    -------------------------------------------------------------------------- */
 
-body > header {
-    margin-top: 32px;
-    margin-bottom: 24px;
-    padding-bottom: 20px;
-    border-bottom: 3px solid var(--acento);
+main {
+    margin-top: 56px;
 }
 
-body > header p {
-    max-width: 68ch;
-    color: var(--texto-suave);
-    font-size: 1.05rem;
+main > h1 {
+    margin-bottom: 28px;
 }
 
-/* --------------------------------------------------------------------------
-   Apartados
-   -------------------------------------------------------------------------- */
-
-body > section {
-    margin-top: 16px;
-    padding: 20px 24px;
-    background: var(--superficie);
-    border: 1px solid var(--borde);
-    border-radius: 8px;
-    box-shadow: var(--sombra);
-}
-
-section ul,
-main > ul {
+/* El menú son tres tarjetas en fila (una debajo de otra en el móvil). */
+.menu {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
     margin: 0;
     padding: 0;
     list-style: none;
 }
 
-/* Formación, experiencia y otras listas: una fila por elemento. */
-section li,
-main > ul > li {
+.menu a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 22px 24px;
+    background: var(--superficie);
+    border: 1px solid var(--borde);
+    border-radius: var(--radio);
+    box-shadow: var(--sombra);
+    color: var(--texto);
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: border-color .2s, transform .2s;
+}
+
+.menu a::after {
+    content: "→";
+    color: var(--acento);
+}
+
+.menu a:hover {
+    border-color: var(--acento);
+    color: var(--texto);
+    transform: translateY(-2px);
+}
+
+/* --------------------------------------------------------------------------
+   Cabecera del currículum y de la vista previa
+   -------------------------------------------------------------------------- */
+
+body > header {
+    margin-top: 28px;
+    margin-bottom: 24px;
+    padding: 28px 0 24px;
+    border-bottom: 1px solid var(--borde);
+}
+
+body > header p {
+    max-width: 65ch;
+    color: var(--texto-suave);
+    font-size: 1.08rem;
+}
+
+/* --------------------------------------------------------------------------
+   Apartados (Contacto, Formación, Experiencia...)
+   -------------------------------------------------------------------------- */
+
+body > section,
+form > section {
+    margin-top: 16px;
+    padding: 22px 26px;
+    background: var(--superficie);
+    border: 1px solid var(--borde);
+    border-radius: var(--radio);
+    box-shadow: var(--sombra);
+}
+
+section ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* Formación y experiencia: una fila por elemento, separadas por una línea. */
+section li {
     padding: 10px 0;
     border-bottom: 1px solid var(--borde);
 }
 
-section li:first-child,
-main > ul > li:first-child {
+section li:first-child {
     padding-top: 0;
 }
 
-section li:last-child,
-main > ul > li:last-child {
+section li:last-child {
     padding-bottom: 0;
     border-bottom: 0;
 }
 
-/* Página de inicio. */
-main {
-    margin-top: 32px;
-}
-
-main > h1 {
-    margin-bottom: 20px;
-}
-
-main > ul {
-    padding: 20px 24px;
-    background: var(--superficie);
-    border: 1px solid var(--borde);
-    border-radius: 8px;
-    box-shadow: var(--sombra);
-}
-
-main > ul a {
-    font-weight: 600;
-    text-decoration: none;
-}
-
-main > ul a:hover {
-    text-decoration: underline;
-}
-
 /* --------------------------------------------------------------------------
-   Niveles de habilidades e idiomas (colores exigidos por el enunciado)
+   Niveles de habilidades e idiomas
+   Los colores (#198754, #8fd19e y #d1e7dd) son los que pide el enunciado.
    -------------------------------------------------------------------------- */
+
+/* Las habilidades e idiomas se ponen en fila, como fichas. */
+.niveles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.niveles li {
+    padding: 0;
+    border: 0;
+}
 
 .nivel-alto,
 .nivel-medio,
 .nivel-bajo {
     display: inline-block;
-    padding: 6px 12px;
-    border-radius: 6px;
+    padding: 7px 14px;
+    border-radius: 999px;
     line-height: 1.4;
 }
 
@@ -258,50 +322,98 @@ main > ul a:hover {
     color: #14231b;
 }
 
-/* La fila de un nivel no lleva línea: el color ya separa los elementos. */
-li:has(> .nivel-alto),
-li:has(> .nivel-medio),
-li:has(> .nivel-bajo) {
-    padding: 4px 0;
-    border-bottom: 0;
-}
-
 /* --------------------------------------------------------------------------
-   Botones y enlaces con aspecto de botón
+   Botones
    -------------------------------------------------------------------------- */
 
 button,
 .boton {
     display: inline-block;
-    padding: 8px 16px;
+    padding: 9px 18px;
     border: 1px solid var(--acento);
-    border-radius: 6px;
+    border-radius: 8px;
     background: var(--acento);
-    color: #14231b;
+    color: #10201a;
     font: inherit;
     font-weight: 600;
     text-decoration: none;
     cursor: pointer;
+    transition: background .2s, border-color .2s, transform .2s;
 }
 
 button:hover,
 .boton:hover {
-    border-color: var(--acento-oscuro);
-    background: var(--acento-oscuro);
+    border-color: var(--acento-hover);
+    background: var(--acento-hover);
+    color: #10201a;
+    transform: translateY(-1px);
 }
 
+/* Botón claro, para acciones secundarias (idioma del editor, "Mostrar todos", "Añadir"). */
 .boton-secundario {
-    background: var(--superficie);
+    background: transparent;
     color: var(--acento);
 }
 
 .boton-secundario:hover {
-    background: var(--acento-claro);
-    color: var(--acento-oscuro);
+    background: var(--acento-suave);
+    color: var(--acento-hover);
+}
+
+/* "Quitar este proyecto": en rojo suave, para que se note que borra. */
+.boton-quitar {
+    margin-top: 16px;
+    border-color: var(--error);
+    background: transparent;
+    color: var(--error);
+}
+
+.boton-quitar:hover {
+    border-color: var(--error);
+    background: var(--error-fondo);
+    color: var(--error);
+}
+
+/* Separación entre botones que van seguidos. */
+button + button,
+button + .boton {
+    margin-left: 8px;
 }
 
 /* --------------------------------------------------------------------------
-   Hito 2: filtro y tarjetas del portfolio
+   Avisos y textos de ayuda
+   -------------------------------------------------------------------------- */
+
+/* Aviso en rojo: "Revisa los campos indicados", "Introduce un año válido"... */
+.aviso {
+    margin-top: 16px;
+    margin-bottom: 16px;
+    padding: 12px 16px;
+    border: 1px solid rgb(242 167 175 / 35%);
+    border-radius: 8px;
+    background: var(--error-fondo);
+    color: #fbe3e6;
+    font-weight: 600;
+}
+
+.aviso a {
+    margin-left: 8px;
+    color: inherit;
+    font-weight: 700;
+}
+
+.ayuda,
+.resultados {
+    color: var(--texto-suave);
+    font-size: .92rem;
+}
+
+.resultados {
+    margin-top: 20px;
+}
+
+/* --------------------------------------------------------------------------
+   Portfolio: filtro
    -------------------------------------------------------------------------- */
 
 .filtro {
@@ -310,70 +422,127 @@ button:hover,
     align-items: flex-end;
     gap: 12px;
     margin-top: 16px;
-    padding: 16px 20px;
+    padding: 18px 22px;
     background: var(--superficie);
     border: 1px solid var(--borde);
-    border-radius: 8px;
+    border-radius: var(--radio);
     box-shadow: var(--sombra);
+}
+
+.filtro label {
+    margin-top: 0;
 }
 
 .filtro input,
 .filtro select {
     width: auto;
-    min-width: 140px;
+    min-width: 160px;
 }
 
+.filtro button + .boton {
+    margin-left: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Portfolio y vista previa: tarjetas de proyectos
+   -------------------------------------------------------------------------- */
+
+/* Las tarjetas van centradas: si hay una, queda en medio; si hay dos, las dos centradas. */
 .tarjetas {
     display: flex;
     flex-wrap: wrap;
-    /* Centra las tarjetas: una sola queda en medio, y lo mismo con dos o tres por fila. */
     justify-content: center;
-    gap: 16px;
-    width: min(var(--ancho), calc(100% - 32px));
-    margin: 16px auto 0;
+    gap: 18px;
+    margin-top: 16px;
 }
 
 .tarjeta {
     display: flex;
+    flex: 0 1 270px;
     flex-direction: column;
     gap: 10px;
-    padding: 18px;
+    overflow: hidden;
+    padding: 20px;
     background: var(--superficie);
     border: 1px solid var(--borde);
-    border-radius: 8px;
+    border-radius: var(--radio);
     box-shadow: var(--sombra);
-    /* Ancho fijo: caben tres por fila en pantallas grandes. */
-    flex: 0 1 270px;
+    transition: border-color .2s, transform .2s;
+}
+
+.tarjeta:hover {
+    border-color: var(--acento);
+    transform: translateY(-3px);
+}
+
+/* La imagen está al final en el HTML, pero aquí se coloca arriba y ocupa todo el ancho. */
+.tarjeta img {
+    order: -1;
+    width: calc(100% + 40px);
+    max-width: none;
+    margin: -20px -20px 4px;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+}
+
+.tarjeta h2 {
+    margin: 0;
+    color: var(--texto);
+    font-size: 1.15rem;
+}
+
+.tarjeta p {
+    margin: 0;
+}
+
+/* Año y categoría, debajo del título. */
+.tarjeta h2 + p {
+    color: var(--texto-suave);
+    font-size: .9rem;
+}
+
+/* "Tecnologías" más pequeño que en el currículum. */
+.tarjeta h3 {
+    margin-bottom: 8px;
+    font-size: .72rem;
 }
 
 .tarjeta ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
     margin: 0;
     padding: 0;
     list-style: none;
 }
 
-.tarjeta h2,
-.tarjeta h3 {
-    margin: 0;
-    color: var(--texto);
-    font-size: 1.1rem;
+/* "Ver proyecto" abajo del todo, con flecha. */
+.tarjeta > a {
+    margin-top: auto;
     font-weight: 600;
-    letter-spacing: 0;
-    text-transform: none;
+    text-decoration: none;
 }
 
+.tarjeta > a::after {
+    content: " →";
+}
+
+.tarjeta > a:hover {
+    text-decoration: underline;
+}
+
+/* Etiquetas: tecnologías y estado del proyecto. */
 .etiqueta {
     display: inline-block;
-    margin: 0 4px 4px 0;
-    padding: 2px 10px;
+    padding: 3px 11px;
     border-radius: 999px;
-    background: var(--acento-claro);
-    color: var(--acento-oscuro);
-    font-size: .85rem;
+    background: var(--acento-suave);
+    color: var(--acento);
+    font-size: .82rem;
     font-weight: 600;
 }
 
-/* Estado de los proyectos: verde «En curso», gris «Terminado». */
+/* Estado: verde "En curso", gris "Terminado". */
 .etiqueta-curso {
     background: #198754;
     color: #ffffff;
@@ -385,34 +554,111 @@ button:hover,
 }
 
 /* --------------------------------------------------------------------------
-   Formularios y avisos
+   Formularios (filtro y editor)
    -------------------------------------------------------------------------- */
 
-form label {
+label {
     display: block;
-    margin-bottom: 4px;
-    font-size: .92rem;
+    margin: 16px 0 6px;
+    font-size: .9rem;
     font-weight: 600;
 }
 
 input,
-select {
+select,
+textarea {
     width: 100%;
-    padding: 8px 10px;
-    border: 1px solid #55645c;
-    border-radius: 6px;
-    background: #1e2623;
+    padding: 9px 12px;
+    border: 1px solid var(--borde);
+    border-radius: 8px;
+    background: var(--fondo);
     color: var(--texto);
     font: inherit;
+    transition: border-color .2s;
 }
 
-.aviso {
+input:hover,
+select:hover,
+textarea:hover {
+    border-color: #4c5d54;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: var(--acento);
+}
+
+textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* --------------------------------------------------------------------------
+   Editor (/portfolio/editar)
+   -------------------------------------------------------------------------- */
+
+body > form:not(.filtro) {
+    margin-top: 16px;
+    padding: 24px 28px;
+    background: var(--superficie);
+    border: 1px solid var(--borde);
+    border-radius: var(--radio);
+    box-shadow: var(--sombra);
+}
+
+/* Botones de idioma del editor, pequeños y arriba. */
+.botones {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.botones button {
+    margin: 0;
+    padding: 4px 14px;
+    border-radius: 999px;
+    font-size: .88rem;
+}
+
+/* Cada fila de proyecto va en su propio recuadro. */
+.fila-proyecto {
     margin: 16px 0;
-    padding: 10px 14px;
-    border-radius: 6px;
-    background: var(--error-fondo);
-    color: var(--error-texto);
+    padding: 4px 20px 20px;
+    background: var(--fondo);
+    border: 1px solid var(--borde);
+    border-radius: var(--radio);
+}
+
+/* El contador de filas, justo antes de los proyectos. */
+form > .ayuda {
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid var(--borde);
+}
+
+/* El aviso del límite va después de las filas, sin la línea de arriba. */
+.fila-proyecto ~ .ayuda {
+    margin-top: 16px;
+    padding-top: 0;
+    border-top: 0;
+}
+
+/* Mensaje de error de un campo. En el HTML va justo antes de la etiqueta del campo. */
+.error {
+    display: block;
+    margin-top: 16px;
+    color: var(--error);
+    font-size: .88rem;
     font-weight: 600;
+}
+
+.error::before {
+    content: "⚠ ";
+}
+
+.error + label {
+    margin-top: 2px;
 }
 
 /* --------------------------------------------------------------------------
@@ -421,22 +667,37 @@ select {
 
 @media (max-width: 600px) {
     body > section,
-    main > ul {
-        padding: 16px;
+    body > form:not(.filtro) {
+        padding: 18px;
     }
 
     .filtro input,
     .filtro select {
         width: 100%;
     }
+
+    .filtro > div {
+        flex: 1 1 100%;
+    }
+
+    .tarjeta {
+        flex-basis: 100%;
+    }
+}
+
+/* Quita las animaciones si el usuario las tiene desactivadas en su sistema. */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+    }
 }
 
 /* --------------------------------------------------------------------------
-   Impresión o guardar como PDF
+   Imprimir o guardar como PDF
    -------------------------------------------------------------------------- */
 
 @media print {
-    /* Al imprimir se usa fondo blanco y texto oscuro. */
+    /* Al imprimir, fondo blanco y texto oscuro. */
     :root {
         --fondo: #ffffff;
         --superficie: #ffffff;
@@ -444,8 +705,7 @@ select {
         --texto-suave: #55645c;
         --borde: #d9e3dd;
         --acento: #146c43;
-        --acento-oscuro: #0f5132;
-        --acento-claro: #e6f2ec;
+        --sombra: none;
     }
 
     body {
@@ -453,6 +713,7 @@ select {
         background: #ffffff;
     }
 
+    /* No salen el menú, los enlaces de volver ni el botón de imprimir. */
     nav,
     body > a,
     .no-imprimir {
@@ -460,23 +721,22 @@ select {
     }
 
     body > header,
-    body > section,
-    main {
+    body > section {
         width: 100%;
     }
 
     body > header {
         margin-top: 0;
+        padding-top: 0;
     }
 
     body > section {
-        padding: 8px 0;
+        padding: 10px 0;
         border: 0;
-        box-shadow: none;
         break-inside: avoid;
     }
 
-    /* Sin esto, el navegador puede quitar los colores de fondo al imprimir. */
+    /* Sin esto, el navegador puede quitar los colores de fondo de los niveles. */
     .nivel-alto,
     .nivel-medio,
     .nivel-bajo,
