@@ -7,111 +7,119 @@
     <link rel="stylesheet" th:href="@{/css/estilo.css}">
 </head>
 <body>
-<!-- Idioma -->
-<nav th:attr="aria-label=#{language.label}">
-    <span th:text="#{language.label}">Idioma</span>
-    <a th:href="@{/curriculum(lang='es')}" lang="es">Español</a>
-    <a th:href="@{/curriculum(lang='en')}" lang="en">English</a>
-</nav>
+    <!-- Idioma -->
+    <nav th:attr="aria-label=#{language.label}">
+        <span th:text="#{language.label}">Idioma</span>
+        <a th:href="@{/curriculum(lang='es')}" lang="es">Español</a>
+        <a th:href="@{/curriculum(lang='en')}" lang="en">English</a>
+    </nav>
 
-<a th:href="@{/}" th:text="#{inicio.nombre}">Inicio</a>
+    <a th:href="@{/}" th:text="#{inicio.nombre}">Inicio</a>
 
-<!-- Perfil -->
-<header>
-    <h1 th:text="${nombre}">Nombre</h1>
-    <h2 th:text="#{cv.profesion}">Titular profesional</h2>
-    <p th:text="#{cv.presentacion}">Presentación de 2 a 4 frases.</p>
-</header>
+    <!-- Perfil -->
+    <header>
+        <!-- ${...} coge un dato que manda el controlador. -->
+        <h1 th:text="${nombre}">Nombre</h1>
+        <h2 th:text="#{cv.profesion}">Titular profesional</h2>
+        <p th:text="#{cv.presentacion}">Presentación de 2 a 4 frases.</p>
+    </header>
 
-<!-- Imprimir: enseña el aviso de Ctrl+P -->
-<p class="no-imprimir">
-    <a th:href="@{/curriculum(imprimir=true)}" class="boton"
-       th:text="#{cv.imprimir}">Imprimir o guardar como PDF</a>
-</p>
-<p class="aviso no-imprimir" th:if="${imprimir}">
-    <span th:text="#{cv.imprimir.aviso}">Pulsa Ctrl+P y elige Guardar como PDF.</span>
-    <a th:href="@{/curriculum}" th:text="#{cv.imprimir.cerrar}">Cerrar</a>
-</p>
+    <!-- Imprimir: enseña el aviso de Ctrl+P -->
+    <p class="no-imprimir">
+        <a th:href="@{/curriculum(imprimir=true)}" class="boton"
+           th:text="#{cv.imprimir}">Imprimir o guardar como PDF</a>
+    </p>
+    <!-- th:if: la etiqueta solo sale si se cumple la condición. -->
+    <p class="aviso no-imprimir" th:if="${imprimir}">
+        <span th:text="#{cv.imprimir.aviso}">Pulsa Ctrl+P y elige Guardar como PDF.</span>
+        <a th:href="@{/curriculum}" th:text="#{cv.imprimir.cerrar}">Cerrar</a>
+    </p>
 
-<!-- Contacto: solo si hay -->
-<section th:if="${contacto != ''}">
-    <h3 th:text="#{cv.contacto.titulo}">Contacto</h3>
-    <p th:text="${contacto}">correo@ejemplo.com</p>
-</section>
+    <!-- Contacto: solo si hay -->
+    <section th:if="${contacto != ''}">
+        <h3 th:text="#{cv.contacto.titulo}">Contacto</h3>
+        <p th:text="${contacto}">correo@ejemplo.com</p>
+    </section>
 
-<section>
-    <h3 th:text="#{cv.formacion.titulo}">Formación</h3>
-    <ul>
-        <li th:each="f : ${formacion}">
-            <strong th:text="#{${f.estudios}}">Estudios</strong> —
-            <span th:text="${f.centro}">Centro</span>
-            <span th:if="${f.anioF != null}" th:text="'(' + ${f.anioF} + ')'">(2027)</span>
-            <span th:if="${f.anioF == null}" th:text="'(' + #{cv.formacion.enCurso} + ')'">(En curso)</span>
-        </li>
-    </ul>
-</section>
+    <section>
+        <h3 th:text="#{cv.formacion.titulo}">Formación</h3>
+        <ul>
+            <!-- Bucle: repite el <li> por cada estudio (f es el estudio de cada vuelta).
+                 #{${...}} traduce la clave que viene de Java. -->
+            <li th:each="f : ${formacion}">
+                <strong th:text="#{${f.estudios}}">Estudios</strong> —
+                <span th:text="${f.centro}">Centro</span>
+                <span th:if="${f.anioF != null}" th:text="'(' + ${f.anioF} + ')'">(2027)</span>
+                <span th:if="${f.anioF == null}" th:text="'(' + #{cv.formacion.enCurso} + ')'">(En curso)</span>
+            </li>
+        </ul>
+    </section>
 
-<section>
-    <h3 th:text="#{cv.experiencia.titulo}">Experiencia</h3>
-    <p th:if="${experiencia.length == 0}" th:text="#{cv.experiencia.vacia}">En busca de mi primera experiencia</p>
-    <ul th:if="${experiencia.length > 0}">
-        <li th:each="f : ${experiencia}">
-            <strong th:text="#{${f.puesto}}">Puesto</strong> — <span th:text="${f.empresa}">Empresa</span>
-            <span th:if="${f.anioF != null}"
-                  th:text="'(' + ${f.anioI} + ' - ' + ${f.anioF} + ')'">(2025 - 2027)</span>
-            <span th:if="${f.anioF == null}"
-                  th:text="#{cv.experiencia.contratado}">Sigue en la empresa</span>
-        </li>
-    </ul>
-</section>
+    <section>
+        <h3 th:text="#{cv.experiencia.titulo}">Experiencia</h3>
+        <p th:if="${experiencia.length == 0}" th:text="#{cv.experiencia.vacia}">En busca de mi primera experiencia</p>
+        <!-- Bucle: un <li> por cada trabajo. Si no hay ninguno, sale el mensaje de arriba. -->
+        <ul th:if="${experiencia.length > 0}">
+            <li th:each="f : ${experiencia}">
+                <strong th:text="#{${f.puesto}}">Puesto</strong> — <span th:text="${f.empresa}">Empresa</span>
+                <span th:if="${f.anioF != null}"
+                      th:text="'(' + ${f.anioI} + ' - ' + ${f.anioF} + ')'">(2025 - 2027)</span>
+                <span th:if="${f.anioF == null}"
+                      th:text="#{cv.experiencia.contratado}">Sigue en la empresa</span>
+            </li>
+        </ul>
+    </section>
 
-<section>
-    <h3 th:text="#{cv.habilidades.titulo}">Habilidades</h3>
-    <ul class="niveles">
-        <li th:each="f : ${habilidad}" th:switch="${f.nivel}">
+    <section>
+        <h3 th:text="#{cv.habilidades.titulo}">Habilidades</h3>
+        <ul class="niveles">
+            <!-- Bucle: una ficha por habilidad.
+                 th:switch mira el nivel y cada th:case pone su color (alto, medio o bajo). -->
+            <li th:each="f : ${habilidad}" th:switch="${f.nivel}">
                 <span th:case="'alto'" class="nivel-alto">
                     <strong th:text="${f.habilidad}">Habilidad</strong> —
                     <span th:text="#{nivel.alto}">nivel alto</span>
                     <span th:text="'| ' + #{cv.anios} + ': ' + ${f.aniosExperiencia}">| Años: 2</span>
                 </span>
-            <span th:case="'medio'" class="nivel-medio">
-                    <strong th:text="${f.habilidad}">Habilidad</strong> —
-                    <span th:text="#{nivel.medio}">nivel medio</span>
-                    <span th:text="'| ' + #{cv.anios} + ': ' + ${f.aniosExperiencia}">| Años: 2</span>
-                </span>
-            <span th:case="'bajo'" class="nivel-bajo">
-                    <strong th:text="${f.habilidad}">Habilidad</strong> —
-                    <span th:text="#{nivel.bajo}">nivel bajo</span>
-                    <span th:text="'| ' + #{cv.anios} + ': ' + ${f.aniosExperiencia}">| Años: 2</span>
-                </span>
-        </li>
-    </ul>
-</section>
+                <span th:case="'medio'" class="nivel-medio">
+                        <strong th:text="${f.habilidad}">Habilidad</strong> —
+                        <span th:text="#{nivel.medio}">nivel medio</span>
+                        <span th:text="'| ' + #{cv.anios} + ': ' + ${f.aniosExperiencia}">| Años: 2</span>
+                    </span>
+                <span th:case="'bajo'" class="nivel-bajo">
+                        <strong th:text="${f.habilidad}">Habilidad</strong> —
+                        <span th:text="#{nivel.bajo}">nivel bajo</span>
+                        <span th:text="'| ' + #{cv.anios} + ': ' + ${f.aniosExperiencia}">| Años: 2</span>
+                    </span>
+            </li>
+        </ul>
+    </section>
 
-<section>
-    <h3 th:text="#{cv.idioma.titulo}">Idiomas</h3>
-    <ul class="niveles">
-        <li th:each="f : ${idioma}" th:switch="${f.nivel}">
-                <span th:case="'alto'" class="nivel-alto">
-                    <strong th:text="#{${f.idioma}}">Idioma</strong> —
-                    <span th:text="#{nivel.alto}">nivel alto</span>
-                    <span th:if="${f.certificado == 'Nativo'}" th:text="'(' + #{nivel.nativo} + ')'">(Nativo)</span>
-                    <span th:if="${f.certificado != 'Nativo'}" th:text="'(' + ${f.certificado} + ')'">(C1)</span>
-                </span>
-            <span th:case="'medio'" class="nivel-medio">
-                    <strong th:text="#{${f.idioma}}">Idioma</strong> —
-                    <span th:text="#{nivel.medio}">nivel medio</span>
-                    <span th:if="${f.certificado == 'Nativo'}" th:text="'(' + #{nivel.nativo} + ')'">(Nativo)</span>
-                    <span th:if="${f.certificado != 'Nativo'}" th:text="'(' + ${f.certificado} + ')'">(B2)</span>
-                </span>
-            <span th:case="'bajo'" class="nivel-bajo">
-                    <strong th:text="#{${f.idioma}}">Idioma</strong> —
-                    <span th:text="#{nivel.bajo}">nivel bajo</span>
-                    <span th:if="${f.certificado == 'Nativo'}" th:text="'(' + #{nivel.nativo} + ')'">(Nativo)</span>
-                    <span th:if="${f.certificado != 'Nativo'}" th:text="'(' + ${f.certificado} + ')'">(A2)</span>
-                </span>
-        </li>
-    </ul>
-</section>
+    <section>
+        <h3 th:text="#{cv.idioma.titulo}">Idiomas</h3>
+        <ul class="niveles">
+            <!-- Bucle: una ficha por idioma, igual que en habilidades. -->
+            <li th:each="f : ${idioma}" th:switch="${f.nivel}">
+                    <span th:case="'alto'" class="nivel-alto">
+                        <strong th:text="#{${f.idioma}}">Idioma</strong> —
+                        <span th:text="#{nivel.alto}">nivel alto</span>
+                        <span th:if="${f.certificado == 'Nativo'}" th:text="'(' + #{nivel.nativo} + ')'">(Nativo)</span>
+                        <span th:if="${f.certificado != 'Nativo'}" th:text="'(' + ${f.certificado} + ')'">(C1)</span>
+                    </span>
+                <span th:case="'medio'" class="nivel-medio">
+                        <strong th:text="#{${f.idioma}}">Idioma</strong> —
+                        <span th:text="#{nivel.medio}">nivel medio</span>
+                        <span th:if="${f.certificado == 'Nativo'}" th:text="'(' + #{nivel.nativo} + ')'">(Nativo)</span>
+                        <span th:if="${f.certificado != 'Nativo'}" th:text="'(' + ${f.certificado} + ')'">(B2)</span>
+                    </span>
+                <span th:case="'bajo'" class="nivel-bajo">
+                        <strong th:text="#{${f.idioma}}">Idioma</strong> —
+                        <span th:text="#{nivel.bajo}">nivel bajo</span>
+                        <span th:if="${f.certificado == 'Nativo'}" th:text="'(' + #{nivel.nativo} + ')'">(Nativo)</span>
+                        <span th:if="${f.certificado != 'Nativo'}" th:text="'(' + ${f.certificado} + ')'">(A2)</span>
+                    </span>
+            </li>
+        </ul>
+    </section>
 </body>
 </html>

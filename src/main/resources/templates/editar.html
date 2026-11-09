@@ -19,12 +19,11 @@
             <button type="submit" name="lang" value="en" class="boton-secundario" lang="en">English</button>
         </div>
 
-        <h2 th:text="#{editar.datos}">Datos personales</h2>
-
         <!-- Aviso de errores -->
         <p class="aviso" th:if="${errores.size() > 0}" th:text="#{editar.revisa}">Revisa los campos indicados</p>
 
-        <!-- Datos personales -->
+        <!-- Datos personales.
+             Cada error: si el mapa "errores" tiene ese campo, enseña su mensaje traducido. -->
         <span class="error" th:if="${errores.containsKey('nombre')}" th:text="#{${errores['nombre']}}"></span>
         <label for="nombre" th:text="#{editar.nombre}">Nombre</label>
         <input type="text" id="nombre" name="nombre" th:value="${form.nombre}">
@@ -47,7 +46,9 @@
         <!-- Proyectos -->
         <p class="ayuda" th:text="#{editar.filas} + ': ' + ${form.proyectos.size()} + ' / ' + ${max}">Filas: 1 / 5</p>
         <span class="error" th:if="${errores.containsKey('limite')}" th:text="#{${errores['limite']}}"></span>
-        <h2 th:text="#{editar.proyectos}">Proyectos</h2>
+        <!-- Bucle: una fila por cada proyecto del formulario.
+             i.index es el número de fila (0, 1, 2...).
+             |...| junta texto y variables: en la fila 0, |proyectos[${i.index}].titulo| da proyectos[0].titulo. -->
         <div class="fila-proyecto" th:each="p, i : ${form.proyectos}">
             <span class="error" th:if="${errores.containsKey('proyectos' + i.index + '.titulo')}" th:text="#{${errores['proyectos' + i.index + '.titulo']}}"></span>
             <label th:for="|titulo-${i.index}|" th:text="#{editar.proyecto.titulo}">Título</label>
@@ -80,7 +81,8 @@
 
             <button type="submit" name="accion" class="boton-quitar" th:value="|quitar-${i.index}|" th:text="#{editar.quitar}">Quitar este proyecto</button>
         </div>
-        <!-- Botones -->
+        <!-- Botones. "lt" significa "menor que".
+             th:unless es lo contrario de th:if: sale cuando NO se cumple la condición. -->
         <button type="submit" name="accion" value="anadir" class="boton-secundario" th:if="${form.proyectos.size() lt max}" th:text="#{editar.anadir}">Añadir proyecto</button>
         <p class="ayuda" th:unless="${form.proyectos.size() lt max}" th:text="#{editar.limite}">Has alcanzado el límite de proyectos</p>
 

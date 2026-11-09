@@ -58,8 +58,8 @@ public class PortfolioController {
                 null));
 
         // Sin tecnologías ni imagen.
-        lista.add(new Proyecto("proyecto.club.titulo", 2025, "diseno",
-                "proyecto.club.descripcion", "terminado",
+        lista.add(new Proyecto("proyecto.club.titulo", 2026, "diseno",
+                "proyecto.club.descripcion", "en-curso",
                 List.of(),
                 "https://github.com/asiervelardo-cyber/juego",
                 "/img/juego.png"));

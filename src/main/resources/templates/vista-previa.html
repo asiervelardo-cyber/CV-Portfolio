@@ -27,6 +27,7 @@
 
     <!-- Proyectos -->
     <div class="tarjetas">
+        <!-- Bucle: una tarjeta por cada proyecto escrito en el editor. -->
         <article class="tarjeta" th:each="p : ${form.proyectos}">
             <h2 th:text="${p.titulo}">Título del proyecto</h2>
             <p th:text="${p.anio} + ' · ' + #{'categoria.' + ${p.categoria}}">2024 · Aplicaciones</p>

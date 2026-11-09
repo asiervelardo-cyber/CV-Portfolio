@@ -3,24 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- th:lang pone el idioma de la página.
+         th:text cambia el texto de la etiqueta; #{...} lo coge de messages.properties. -->
     <title th:text="#{inicio.titulo}">Inicio</title>
+    <!-- th:href pone el enlace; @{...} crea la ruta. -->
     <link rel="stylesheet" th:href="@{/css/estilo.css}">
 </head>
 <body>
-<!-- Idioma -->
-<nav th:attr="aria-label=#{language.label}">
-    <span th:text="#{language.label}">Idioma</span>
-    <a th:href="@{/(lang='es')}" lang="es">Español</a>
-    <a th:href="@{/(lang='en')}" lang="en">English</a>
-</nav>
-<!-- Menú -->
-<main>
-    <h1 th:text="#{inicio.titulo}">Inicio</h1>
-    <ul class="menu">
-        <li><a th:href="@{/curriculum}" th:text="#{cv.titulo}">Currículum</a></li>
-        <li><a th:href="@{/portfolio}" th:text="#{portfolio.titulo}">Portfolio</a></li>
-        <li><a th:href="@{/portfolio/editar}" th:text="#{editar.titulo}">Editar</a></li>
-    </ul>
-</main>
+    <!-- Idioma: @{/(lang='en')} añade ?lang=en a la ruta. th:attr pone un atributo con texto traducido. -->
+    <nav th:attr="aria-label=#{language.label}">
+        <span th:text="#{language.label}">Idioma</span>
+        <a th:href="@{/(lang='es')}" lang="es">Español</a>
+        <a th:href="@{/(lang='en')}" lang="en">English</a>
+    </nav>
+    <!-- Menú -->
+    <main>
+        <h1 th:text="#{inicio.titulo}">Inicio</h1>
+        <ul class="menu">
+            <li><a th:href="@{/curriculum}" th:text="#{cv.titulo}">Currículum</a></li>
+            <li><a th:href="@{/portfolio}" th:text="#{portfolio.titulo}">Portfolio</a></li>
+            <li><a th:href="@{/portfolio/editar}" th:text="#{editar.titulo}">Editar</a></li>
+        </ul>
+    </main>
 </body>
 </html>

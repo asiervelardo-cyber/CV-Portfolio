@@ -17,11 +17,13 @@
     <a th:href="@{/}" th:text="#{inicio.nombre}">Inicio</a>
 
     <!-- Filtro -->
+    <!-- th:action: dirección a la que se envía el formulario. -->
     <form class="filtro" method="get" th:action="@{/portfolio}">
 
         <div>
             <label for="categoria" th:text="#{filtro.categoria}">Categoría</label>
             <select id="categoria" name="categoria">
+                <!-- th:selected deja marcada la opción que se eligió. -->
                 <option value="todas" th:text="#{filtro.todas}">Todas</option>
                 <option value="aplicaciones" th:selected="${categoriaFiltro == 'aplicaciones'}"
                         th:text="#{categoria.aplicaciones}">Aplicaciones</option>
@@ -34,6 +36,7 @@
 
         <div>
             <label for="anio" th:text="#{filtro.anio}">Año</label>
+            <!-- th:value rellena el campo con lo que se escribió. -->
             <input type="number" id="anio" name="anio" th:value="${anioFiltro}">
         </div>
 
@@ -50,13 +53,14 @@
 
     <!-- Proyectos -->
     <div class="tarjetas">
+        <!-- Bucle: una tarjeta por cada proyecto filtrado. -->
         <article class="tarjeta" th:each="p : ${filtrado}">
             <h2 th:text="#{${p.nombre}}">Título del proyecto</h2>
             <p th:text="${p.anio} + ' · ' + #{'categoria.' + ${p.categoria}}">2024 · Aplicaciones</p>
 
             <div th:switch="${p.estado}">
-            <span th:case="'en-curso'" class="etiqueta etiqueta-curso"
-                  th:text="#{estado.enCurso}">En curso</span>
+                <span th:case="'en-curso'" class="etiqueta etiqueta-curso"
+                      th:text="#{estado.enCurso}">En curso</span>
                 <span th:case="'terminado'" class="etiqueta etiqueta-terminado"
                       th:text="#{estado.terminado}">Terminado</span>
             </div>
@@ -66,12 +70,14 @@
             <div th:if="${p.tecnologias.size() > 0}">
                 <h3 th:text="#{portfolio.tecnologias}">Tecnologías</h3>
                 <ul>
+                    <!-- Bucle: una etiqueta por cada tecnología del proyecto. -->
                     <li class="etiqueta" th:each="t : ${p.tecnologias}" th:text="${t}">Java</li>
                 </ul>
             </div>
 
             <a th:if="${p.enlace != null}" th:href="${p.enlace}"
                th:text="#{portfolio.verProyecto}">Ver proyecto</a>
+            <!-- th:src pone la ruta de la imagen y th:alt su texto alternativo. -->
             <img th:if="${p.img != null}" th:src="@{${p.img}}"
                  th:alt="#{portfolio.imagen} + ' ' + #{${p.nombre}}" alt="Captura del proyecto">
         </article>
