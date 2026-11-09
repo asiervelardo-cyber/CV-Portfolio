@@ -9,8 +9,8 @@
 <body>
     <nav th:attr="aria-label=#{language.label}">
         <span th:text="#{language.label}">Idioma</span>
-        <a th:href="@{/curriculum(lang='es')}" lang="es">Español</a>
-        <a th:href="@{/curriculum(lang='en')}" lang="en">English</a>
+        <a th:href="@{/portfolio(lang='es',categoria=${categoriaFiltro},anio=${anioFiltro})}" lang="es">Español</a>
+        <a th:href="@{/portfolio(lang='en',categoria=${categoriaFiltro},anio=${anioFiltro})}" lang="en">English</a>
     </nav>
 
     <a th:href="@{/}" th:text="#{inicio.nombre}">Inicio</a>

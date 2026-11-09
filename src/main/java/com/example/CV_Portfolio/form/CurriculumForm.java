@@ -1,5 +1,6 @@
 package com.example.CV_Portfolio.form;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CurriculumForm {
@@ -8,7 +9,7 @@ public class CurriculumForm {
     private String presentacion ="";
     private String ciudad ="";
     private String correo = "";
-    private List<ProyectoForm> proyectos;
+    private List<ProyectoForm> proyectos = new ArrayList<>();
 
     public CurriculumForm() {}
 
